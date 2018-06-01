@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>专家管理</title> 
+    <link rel="stylesheet" href="/statics/css/base.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/icon.css">
+    <link rel="stylesheet" href="/statics/css/cms_column.css">
+    <link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css">
+    <!-- 共用样式 -->
+	<link rel="stylesheet" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/javascript/cms/common.js"></script>
+    <script type="text/javascript" src="/statics/javascript/cms/cms_expert.js"></script>
+</head> 
+<body>
+	<div style="width: 100%;height: 100%">
+		<table id="datagrid" class="easyui-datagrid" data-options="pagination: true, rownumbers: true, toolbar:'#tb', striped: true" style="width:100%;height:100%">
+			<thead>
+				<tr>
+					<!-- <th data-options="field: 'id', width: '20%', align: 'center'">Id</th> -->
+					<th data-options="field: 'name', width: '80%', align: 'center'">专家名称</th>
+					<!-- <th data-options="field: 'tag', width: '20%', align: 'center'">专业领域</th> -->
+					<!-- <th data-options="field: 'createTime', width: '20%', align: 'center'">创建时间</th> -->
+					<!-- <th data-options="field: 'updateTime', width: '20%', align: 'center'">最后修改时间</th> -->
+					<th data-options="field: 'operation', width: '20%', align: 'center'">操作</th>
+				</tr>
+			</thead>
+		</table>
+		<div id="tb" class="opt-buttons" style="padding:0 30px;">
+           	<a id="add" href="#" class="easyui-linkbutton" data-options="selected:false, iconCls:'icon-add'">新增</a>
+        </div>
+		
+		<div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		    <form id="form">
+			    <table class="this_table">
+		    		<tr style="display: none;">
+		    			<td>id:</td>
+		    			<td><input id="id" value="0" class="easyui-textbox" type="text" name="id"></input></td>
+		    		</tr>
+					<tr>
+		    			<td><label>专家姓名:</label></td>
+		    			<td><input id="name" class="easyui-textbox" type="text" name="name" data-options="missingMessage: '必填项', required:true, validType: ['trimBlanForNotNull', 'expertName[$(\'#id\').textbox(\'getValue\')]']"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><label>相关主题:</label></td>
+		    			<td id="theme" class="this-checkbox">
+		    				<input value="0" type="checkbox" name="specialized" /><span>男</span>
+		    				<input value="1" type="checkbox" name="specialized" /><span>女</span>
+		    				<input value="2" type="checkbox" name="specialized" /><span>未知</span><br>
+		    			</td>
+	    			</tr>
+		    		<tr>
+		    			<td colspan="2" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but1" onclick="save();">保存</a>
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+		    			</td>
+		    		</tr>
+		    	</table>
+	    	</form>
+		</div>
+	</div>
+</body> 
+</html>

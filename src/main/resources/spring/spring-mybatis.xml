@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+       
+       <!-- 读入属性配置文件 -->
+	<context:property-placeholder location="classpath:db.properties" ignore-unresolvable="true"/>
+	
+   <!-- 数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${connection.url}"/>
+        <property name="username" value="${connection.username}"/>
+        <property name="password" value="${connection.password}"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 超过时间限制是否回收 -->
+        <property name="removeAbandoned" value="${druid.removeAbandoned}" />
+        <!-- 超过时间限制多长； -->
+        <property name="removeAbandonedTimeout" value="${druid.removeAbandonedTimeout}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${druid.validationQuery}" />
+        <property name="testWhileIdle" value="${druid.testWhileIdle}" />
+        <property name="testOnBorrow" value="${druid.testOnBorrow}" />
+        <property name="testOnReturn" value="${druid.testOnReturn}" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小  如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。-->
+        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${druid.filters}" />
+    </bean>
+
+    <!-- Spring整合Mybatis，更多查看文档：http://mp.baomidou.com -->
+  <!--    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        自动扫描Mapping.xml文件
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+         <property name="mapperLocations" value="classpath*:com/xhpower/**/mapper/*.xml" />
+        <property name="typeAliasesPackage" value="com.xhpower.manufacture.**.entity"/>
+        <property name="plugins">
+            <array>
+                分页插件配置
+                <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+                    <property name="dialectType" value="mysql"/>
+                </bean>
+            </array>
+        </property>
+	    全局配置注入
+	    <property name="globalConfig" ref="globalConfig" />
+	</bean>
+	<bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+	    
+			AUTO->`0`("数据库ID自增")
+		 	INPUT->`1`(用户输入ID")
+			ID_WORKER->`2`("全局唯一ID")
+			UUID->`3`("全局唯一ID")
+		
+	    <property name="idType" value="0" />
+		
+			MYSQL->`mysql`
+			ORACLE->`oracle`
+			DB2->`db2`
+			H2->`h2`
+			HSQL->`hsql`
+			SQLITE->`sqlite`
+			POSTGRE->`postgresql`
+			SQLSERVER2005->`sqlserver2005`
+			SQLSERVER->`sqlserver`
+		
+		Oracle需要添加该项
+	    <property name="dbType" value="oracle" />
+	    全局表为下划线命名设置 true
+	    <property name="dbColumnUnderline" value="true" />
+	</bean>
+
+    MyBatis 动态扫描 
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xhpower.**.dao"/>
+    </bean> --> 
+  
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:com/xhpower/**/mapper/*.xml" />
+	</bean>
+
+	<!-- 面向接口编程 自动扫描DAO 只要给出接口所在的包即可，会自动把包中的接口引入，无需写实现类-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage" value="com.xhpower.**.dao" />
+    </bean>
+    
+    <!-- DAO配置数据访问模版  在实现类中注入sqlsession，再使用sqlsession,是细颗粒控制-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" >
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+    
+<!-- 启用对事务注解的支持 -->
+<!--     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    
+    配置事务管理
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean> -->
+
+	<tx:annotation-driven transaction-manager="sitdbTxManager"/>
+
+</beans>

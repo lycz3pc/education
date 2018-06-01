@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>QQ客服</title>
+	<link rel="stylesheet" href="/statics/css/base.css">
+	<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+	<link rel="stylesheet" href="/statics/custom/uimaker/icon.css">
+	<!-- 富文本编辑器css不用可不引用 -->
+	<!-- 共用样式 -->
+	<link rel="stylesheet" href="/statics/css/public/s-css-2.css">
+	<!-- 富文本编辑器css不用可不引用 -->
+	<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/statics/javascript/cms/common.js"></script>
+</head>
+<body>
+	<div style="width: 100%;height: 100%">
+		<table id="datagrid" class="easyui-datagrid" data-options="pagination:true, rownumbers:true, toolbar:'#tb', width:'100%', height:'100%', striped:true">
+			<thead>
+				<tr>
+					<th data-options="field:'qq', width:'20%'">QQ号码</th>
+					<th data-options="field:'remarks', width:'20%', align:'center'">备注</th>
+					<th data-options="field:'statusValue', width:'10%', align:'center'">状态</th>
+					<th data-options="field:'createTime', width:'15%', align:'center'">创建时间</th>
+					<th data-options="field:'updateTime', width:'15%', align:'center'">更新时间</th>
+					<th data-options="field:'operation', width:'20%', align:'center'">操作</th>
+				</tr>
+			</thead>
+		</table>
+		<!-- 功能按钮 -->
+		<div id="tb" style="height:auto">
+			<input id="searchQQ" class="easyui-textbox" data-options="prompt:'输入内容', height:'35px'"/>
+			<a id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+			<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+		</div>
+		<!-- 弹出框 -->
+		<div id="dialog" class="easyui-dialog" title="新增" data-options="resizable:false, draggable:false" style="width: 240px;height:220px;">
+			<form id="form" method="post">
+				<table class="this_table">
+					<tr style="display: none">
+		    			<td><label>id:</label></td>
+		    			<td><input id="id" class="easyui-textbox" name="id" style="width:160px;"/></td>
+		    		</tr>
+		    		<tr>
+		    			<td><label>qq号码:</label></td>
+		    			<td><input id="qq" class="easyui-textbox" name="qq" style="width:160px;" data-options="required:'true', missingMessage: '必填项', validType:['trimBlanForNotNull','length[0, 11]']"/></td>
+	    			</tr>
+	    			<tr>
+		    			<td><label>备注:</label></td>
+		    			<td><input id="remarks" class="easyui-textbox" name="remarks" style="width:160px;" /></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="4" align="center" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but1" onclick="save();">保存</a>
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+		    			</td>
+		    		</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	
+	$('#dialog').dialog('close');
+	
+	list();
+	
+	$('#datagrid').datagrid({onDblClickRow: function(rowIndex, rowData){
+    	setDisable(false);
+    	edit(rowIndex, 0);
+    }});
+	
+	$('#datagrid').datagrid('getPager').pagination({  
+        pageSize: 10,  
+        pageNumber: 1,  
+        pageList: [10, 20, 30, 40, 50],  
+        onSelectPage: function(pageNumber, pageSize){
+    		list();
+    	}
+	});
+	
+	// 查询按钮点击事件
+	$("#search").click(function(){
+		list();
+	});
+});
+
+function list(){
+	var options = $("#datagrid").datagrid("getPager").data("pagination").options;
+	$.ajax({
+        method: 'POST',
+        url: '/platform/npCustomerService/list?_' + $.now(),
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify({
+        	qq: $("#searchQQ").textbox('getValue'),
+        	current: options.pageNumber,	//页码
+        	size: options.pageSize			//每页显示行
+        }),
+        success: function(data) {
+        	var temp = data.page;
+        	temp.rows = temp.records;
+        	// 操作
+        	for (var i in temp.rows) {
+        		var str = '<a class="easyui-linkbutton this_but_red l-btn l-btn-small" onclick="edit(' + i + ', 1)">修改</a>';
+        		str += '<a class="easyui-linkbutton this_but_black l-btn l-btn-small" onclick="del(' + temp.rows[i].id + ')">删除</a>';
+        		if (temp.rows[i].status == 0 || temp.rows[i].status == '') {
+        			str += '<a class="easyui-linkbutton this_but_black l-btn l-btn-small" onclick="start(' + temp.rows[i].id + ')">启用</a>';
+				}
+				temp.rows[i].operation = str;
+			}
+            $('#datagrid').datagrid('loadData', temp);
+        },
+        error: function() {
+            alert('error');
+        }
+    });
+}
+
+function add(){
+	setAble();
+	$('#form').form('clear');
+	$('#dialog').dialog({
+		title: '新增',
+	    width: 240,
+	    height: 220,
+	});
+}
+
+function save(){
+	var date = {
+		id: $("#id").textbox('getValue'),
+		qq: $("#qq").textbox('getValue'),
+		remarks: $("#remarks").textbox('getValue')
+	};
+	$.ajax({
+		type: "POST",
+		url: '/platform/npCustomerService/save?_' + $.now(),
+		contentType: "application/json",
+		data: JSON.stringify(date),
+		dataType : "json",
+		success: function (data) {
+			$.messager.alert('提示','保存成功','info');
+			list();
+			$('#dialog').dialog('close');
+        }
+	});
+}
+
+function del(id){
+	$.messager.confirm('确认', '确认删除？', function(r){
+		if (r){
+			$.ajax({
+				type: "POST",
+				url: '/platform/npCustomerService/delete?_' + $.now(),
+				contentType: "application/json",
+				data: JSON.stringify({id: id}),
+				dataType : "json",
+				success: function (data) {
+					$.messager.alert('提示','删除成功','info');
+					list();
+					$('#dialog').dialog('close');
+	            }
+			});
+		}
+	});
+}
+
+//修改, index行索引  option 操作：0双击行  1点击修改
+function edit(index, option){
+	option == 1 ? setAble() : 1;
+	var rows = $('#datagrid').datagrid('getRows');
+	var temp = rows[index];
+	$('#form').form('load', temp);
+	$('#dialog').dialog({
+		title: option == 1 ? '修改' : '查看',
+	    width: 240,
+	    height: 220,
+	});
+}
+
+function start(id){
+	$.messager.confirm('确认', '客服只能启用一个，请确认？', function(r){
+		if (r){
+			$.ajax({
+				type: "POST",
+				url: '/platform/npCustomerService/start?_' + $.now(),
+				contentType: "application/json",
+				data: JSON.stringify({id: id}),
+				dataType : "json",
+				success: function (data) {
+					$.messager.alert('提示','启用成功','info');
+					list();
+					$('#dialog').dialog('close');
+	            }
+			});
+		}
+	});
+}
+</script>
+</html>

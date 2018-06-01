@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>联盟校园列表</title>
+	<link href="/statics/css/base.css" rel="stylesheet">
+	<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+	<link rel="stylesheet" type="text/css" href="/statics/css/providers.css">
+	<link rel="stylesheet" href="/statics/css/colorpicker.css" type="text/css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/statics/css/layout.css" />
+    <link href="/statics/css/colorpicker.css" rel="stylesheet" type="text/css" />
+ 	<!-- 共用样式 -->
+	<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/js/school/jsAddress.js"></script>
+	<script type="text/javascript" src="/statics/custom/colorpicker.js"></script>
+    <script type="text/javascript" src="/statics/custom/eye.js"></script>
+    <script type="text/javascript" src="/statics/custom/utils.js"></script>
+	<script type="text/javascript" src="/statics/util/file.js"></script>
+	<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/statics/javascript/banner/validate-comm.js"></script>
+	<script type="text/javascript" src="/statics/javascript/school/schoolList.js"></script>
+	<!-- 拓展验证 -->
+	<script type="text/javascript" src="/js/school/validate.js"></script>
+	<script src="/statics/js/keydown.js"></script> 
+</head>
+<body>
+<div class="container">
+	<!-- 列表 -->
+	<table id="dg" title="家校共育列表" style="width:100%;height:100%;"></table>
+	<div id="tb" style="padding:0 30px;">
+        学校名称: <input class="easyui-textbox" placeholder="学校名称" style="height:35px;width: 10%" type="text" id="querySch" name="schName"/>
+        省:        <select name="province" id="seachprov" style="height:35px;width: 10%">
+            </select>
+        市:        <select name="city" id="seachcity" style="height:35px;width: 10%">
+            </select>
+        区:        <select name="area" id="seachdistrict" style="height:35px;width: 10%">
+            </select>
+        <a href="javascript:void(0)" onclick="schoolCriteria()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+        <a href="javascript:void(0)" onclick="showDialog('新增联盟校园')" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+	</div>
+	<div id="dd" style="display:none;width: 730px;height:90%;">
+	  <form id="schoolForm" method="post" enctype="multipart/form-data">
+		<table class="this_table">
+            <tr>
+                <td><label>学校名称：</label></td>
+                <input type="hidden" id="schoolId" name="id"/>
+                <input type="hidden" id="resourceStr" name="resourceStr"/>
+                <td><input class="easyui-textbox" data-options="validType:['blank','length[1,60]']" required="true"  id="schName" name="schName"  style="width:300px;" /></td>
+            </tr>
+		    <tr>
+                <td><label>学校所在区域 ：</label></td>   
+                <td id="selectTd">
+                    <select class="sel" name='province' id="seachprov2"  style="width:100px;height:36px;line-height: 36px;border-radius: 4px;box-sizing: border-box;">
+                    </select>
+                    <input type="hidden" id="provText2" name="provinceText" />
+                    <select name='city' id="seachcity2" style="width:100px;height:36px;line-height: 36px;border-radius: 4px;box-sizing: border-box;">
+                    </select>
+                    <input type="hidden" id="cityText2" name="cityText" />
+                    <select  name='area' id="seachdistrict2"  style="width:100px;height:36px;line-height: 36px;border-radius: 4px;box-sizing: border-box;">
+                    </select>
+                    <input type="hidden" id="areaText2" name="areaText" />
+                </td>
+            </tr>
+            <tr>
+                <td><label>详细地址：</label></td>       
+                 <td><input class="easyui-textbox" data-options="validType:['blank','length[1,60]']" required="true"  id="address" name="address"  style="width:300px;" /></td>
+            </tr> 
+            <tr>
+                <td><label>单位座机号：</label></td>       
+                <td class="this_textarea"  colspan="2"><input class="easyui-validatebox" id="unitSitPhone" placeholder="格式:0731-88888888"  name="unitSitPhone" data-options="validType:['blank','length[1,100]','checkUnitSitPhone[\'#schoolId\']','sitmobile'],required:true,"   style="width:300px;height:30px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>单位手机号：</label></td>       
+                <td class="this_textarea"  colspan="2"><input class="easyui-validatebox" id="unitTelPhone"  name="unitTelPhone" data-options="validType:['blank','length[1,100]','checkUnitTelPhone[\'#schoolId\']','mobile'],required:true,"   style="width:300px;height:30px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>学校简介：</label></td>       
+                <td class="this_textarea"  colspan="2"><textarea class='easyui-textbox' data-options="multiline:true,validType:['blank','length[1,500]']" required="true" id="schDescript" name="schDescript"  style="width:300px;height:180px;"></textarea></td>
+            </tr>
+            <tr>
+                <td><label>学校图片：</label></td>
+                <!-- data-options="prompt:'Choose a img...',accept:'image/jpeg,image/png'" -->
+                <td id="t_schPhoto"><input class="easyui-filebox"  id="schPhoto" name="files"  /><span style="color:red">图片大小不能超过3M,建议尺寸287px*194px</span></td>
+            </tr>
+            <tr>
+				<td><label></label></td>
+            	<td>
+            		<div class="fitem">	            
+			            <img id="img1" src="/statics/images/addimg.png" style="width:225px;height: 120px" />
+		        	</div>
+            	</td>
+            </tr>
+            <tr>
+                <td><label>学校logo：</label></td>
+                <!-- data-options="prompt:'Choose a img...',accept:'image/jpeg,image/png'" -->
+                <td id="t_schLogo"><input class="easyui-filebox"  id="schLogo" name="files"  /><span style="color:red">图片大小不能超过3M,建议尺寸285px*103px</span></td>
+            </tr>
+            <tr>
+				<td><label></label></td>
+            	<td>
+            		<div class="fitem">	            
+			            <img id="img2" src="/statics/images/addimg.png" style="width:225px;height: 120px" />
+		        	</div>
+            	</td>
+            </tr>
+            <tr>
+                <td><label>校长姓名 ：</label></td>       
+                <td><input class='easyui-textbox' data-options="validType:['blank','length[1,60]']" required="true" id="preName" name="preName"  style="width:300px;"  /></td>
+            </tr>
+            <tr>
+                <td><label>校长语录 ：</label></td>       
+                <td class="this_textarea"  colspan="2"><textarea class="easyui-textbox" data-options="multiline:true,validType:['blank','length[1,500]']" required="true"  id="preSaying" name="preSaying"  style="width:300px;height:180px;"></textarea></td>
+            </tr>
+            <tr>
+                <td><label>校长座机号：</label></td>       
+                <td class="this_textarea"  colspan="2"><input class="easyui-validatebox" id="preSitPho" placeholder="格式:0731-88888888"  name="preSitPho" data-options="validType:['blank','length[1,100]','checkPreSitPho[\'#schoolId\']','sitmobile'],required:true,"   style="width:300px;height:30px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>校长联系电话：</label></td>       
+                <td class="this_textarea"  colspan="2"><input class="easyui-validatebox" id="prePhone"  name="prePhone" data-options="validType:['blank','length[1,100]','checkPrePhone[\'#schoolId\']','mobile'],required:true,"   style="width:300px;height:30px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>信息技术对接人姓名：</label></td>       
+                <td><input class="easyui-textbox" id="infreceiman"  name="infreceiman" data-options="validType:['blank','length[1,100]'],required:true,"   style="width:300px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>信息技术对接人座机号：</label></td>       
+                <td class="this_textarea"  colspan="2"><input class="easyui-validatebox" id="infreceiSitP" placeholder="格式:0731-88888888"  name="infreceiSitP" data-options="validType:['blank','length[1,100]','checkInfreceiSitP[\'#schoolId\']','sitmobile'],required:true,"   style="width:300px;height:30px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>信息技术对接人电话:</label></td>       
+                <td class="this_textarea"  colspan="2"><input class="easyui-validatebox" id="infreceiphone"  name="infreceiphone" data-options="validType:['blank','length[1,100]','checkInfreceiphone[\'#schoolId\']','mobile'],required:true,"   style="width:300px;height:30px;"></input></td>
+            </tr>
+            <tr>
+                <td><label>头部背景图片 ：</label></td>       
+                <td id="t_headBg"><input class="easyui-filebox"  id="headBg" name="files"  /></td>
+            </tr>
+            <tr>
+				<td><label></label></td>
+            	<td>
+            		<div class="fitem">
+			            <img id="img3"  src="/statics/images/addimg.png" style="width:225px;height: 120px"  />
+		        	</div>
+            	</td>
+
+            </tr>
+            <tr class="outer">
+	    			<td><label>状态:</label></td>
+	    			<td>
+	    				<select id="status" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="status"  style="width:240px;">
+							    <option value="0">待审核</option>
+							    <option value="1">已通过</option>
+						</select>
+	    			</td>
+	    		</tr>
+            <tr>
+                <td><label>尾部背景图片 ：</label></td>       
+                <td id="t_footBg"><input class="easyui-filebox" id="footBg" name="files" /></td>
+            </tr>
+            <tr>
+           		<td><label></label></td>
+            	<td>
+            		<div class="fitem">
+			            <img id="img4"  src="/statics/images/addimg.png" style="width:225px;height: 120px" />
+		        	</div>
+            	</td>
+            </tr>
+            <tr>
+                <td><label>网站主题颜色 ：</label></td>   
+                <td>
+                   <div class="wrapper" style="width:auto;"><div id="colorSelector"><div style="background-color: #0000ff"></div></div></div>
+                </td>
+                <td><input type="hidden" name="themeColor" id="colors"/></td>
+            </tr>
+            <tr>
+		    	<td colspan="3" align="center" class="this_table_center">
+		    		<a class="easyui-linkbutton this_but1" onclick="doSaveSchool();">保存</a>
+		    		<a class="easyui-linkbutton this_but2" onclick="clearForm()">取消</a>
+		    	</td>
+		    </tr>           
+       	</table>
+         </form>
+	</div>
+	
+	<div id="dialog" class="easyui-dialog" title="生成子站" style="width: 400px;">
+		<form id="schoolStation">
+			<table class="this_table">
+				<tr>
+					<td><label>栏目：</label><input id="schoolStationId" style="display: none;"></td>
+					<td id="schoolColumns" class="this-checkbox"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center" class="this_table_center">
+						<a class="easyui-linkbutton this_but1 this_buttton" onclick="updateStation()">生成</a>
+						<a id="this_buttton" class="easyui-linkbutton this_but2 this_buttton" onclick="$('#schoolStation').form('clear');$('#dialog').dialog('close');">取消</a>
+					</td>
+				</tr>           
+			</table>
+		</form>
+	</div>
+	
+	<div id="digo_code_url" style="width:450px;height:480px;padding:5px;display:none;" class="easyui-dialog" title="查看二维码" >
+		   <img id="img_code_url"  src="" />
+		</div>
+	
+	<div id="tip" style="width:400px;height:200px;padding:10px;display:none;"></div>
+</div>
+<!-- <div id="tip" style="width:400px;height:200px;padding:10px;display:none;"></div> -->
+	<style>
+	.colorpicker{
+  	    left: 800px !important;  
+     	top: 400px !important;  
+	}
+	.add_colorpicker{
+		left: 702px !important;
+   		top: 240px !important;
+	}
+	.this_table .this_textarea .textbox {
+		    height: 180px !important;
+		}
+	</style>
+	<script>
+		$(function(){
+				if($(window).height()<520){
+ 					$(".colorpicker").addClass("add_colorpicker");
+				}	
+		})
+	</script>
+	
+</body>
+</html>

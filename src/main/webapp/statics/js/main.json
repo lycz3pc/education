@@ -1,0 +1,267 @@
+[{
+	"menuid": "1",
+	"topicon": "icon-sys",
+	"menuname": "系统管理",
+	"menu": [{
+		"menuname": "系统管理",
+		"icon": "&#xe620;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "菜单管理",
+			"url": "index.html"
+		}, {
+			"menuname": "添加用户",
+			"url": "basic_info.html"
+		}, {
+			"menuname": "用户管理",
+			"url": "demo2.html"
+		}, {
+			"menuname": "角色管理",
+			"url": "providers.html"
+		}, {
+			"menuname": "权限设置",
+			"url": "login_white.html"
+		}, {
+			"menuname": "系统日志",
+			"url": "login.html"
+		}]
+	}, {
+		"menuname": "员工管理",
+		"icon": "&#xe621;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "员工列表",
+			"url": "process.html"
+		}, {
+			"menuname": "视频监控",
+			"url": "providers.html"
+		}]
+	}, {
+		"menuname": "部门管理",
+		"icon": "&#xe622;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "添加部门",
+			"url": "providers1.html"
+		}, {
+			"menuname": "部门列表",
+			"url": "providers.html"
+		}]
+	}, {
+		"menuname": "财务管理",
+		"icon": "&#xe623;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "收支分类",
+			"url": "process.html"
+		}, {
+			"menuname": "报表统计",
+			"url": "providers.html"
+		}, {
+			"menuname": "添加支出",
+			"url": "login.html"
+		}]
+	}, {
+		"menuname": "商城管理",
+		"icon": "&#xe656;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "商品分",
+			"url": "process.html"
+		}, {
+			"menuname": "商品列表",
+			"url": "providers.html"
+		}, {
+			"menuname": "商品订单",
+			"url": "providers.html"
+		}]
+	}]
+}, {
+	"menuid": "8",
+	"topicon": "icon-sys",
+	"menuname": "组织管理",
+	"menu": [{
+		"menuname": "供应商组织",
+		"icon": "&#xe620;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "采购组织",
+			"url": "index.html"
+		}, {
+			"menuname": "基本信息",
+			"url": "basic_info.html"
+		}, {
+			"menuname": "供应商",
+			"url": "basic_info.html"
+		}, {
+			"menuname": "业务流程",
+			"url": "basic_info.html"
+		}]
+	}, {
+		"menuname": "采购组织",
+		"icon": "&#xe625;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "业务流程",
+			"url": "login.html"
+		}, {
+			"menuname": "表单管理",
+			"url": "providers.html"
+		}]
+	}, {
+		"menuname": "专家库",
+		"icon": "&#xe62f;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "业务流程",
+			"url": "login.html"
+		}, {
+			"menuname": "表单管理",
+			"url": "providers.html"
+		}]
+	}, {
+		"menuname": "注册供应商",
+		"icon": "&#xe647;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "业务流程",
+			"url": "login.html"
+		}, {
+			"menuname": "表单管理",
+			"url": "providers.html"
+		}]
+	}, {
+		"menuname": "RFI动态信息",
+		"icon": "&#xe611;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "业务流程",
+			"url": "login.html"
+		}, {
+			"menuname": "表单管理",
+			"url": "providers.html"
+		}]
+	}, {
+		"menuname": "资产过期",
+		"icon": "&#xe633;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "业务流程",
+			"url": "login.html"
+		}, {
+			"menuname": "表单管理",
+			"url": "providers.html"
+		}]
+	}]
+}, {
+	"menuid": "56",
+	"topicon": "&#xe640;",
+	"menuname": "部门管理",
+	"menu": [{
+		"menuname": "二二一",
+		"icon": "&#xe624;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "添加部门",
+			"url": "demo1.html"
+		}, {
+			"menuname": "部门列表",
+			"url": "demo2.html"
+		}]
+	}]
+}, {
+	"menuid": "28",
+	"topicon": "&#xe625;",
+	"menuname": "财务管理",
+	"menu": [{
+		"menuname": "二二一",
+		"icon": "&#xe625;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "收支分类",
+			"url": "demo.html"
+		}, {
+			"menuname": "报表统计",
+			"url": "demo1.html"
+		}, {
+			"menuname": "添加支出",
+			"url": "demo.html"
+		}]
+	}]
+}, {
+	"menuid": "39",
+	"topicon": "&#xe626;",
+	"menuname": "商城管理",
+	"menu": [{
+		"menuname": "二二一",
+		"icon": "&#xe626;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "商品分",
+			"url": "/shop/productcatagory.aspx"
+		}, {
+			"menuname": "商品列表",
+			"url": "/shop/product.aspx"
+		}, {
+			"menuname": "商品订单",
+			"url": "/shop/orders.aspx"
+		}]
+	}]
+}, {
+	"menuid": "42",
+	"topicon": "&#xe626;",
+	"menuname": "采购寻源",
+	"menu": [{
+		"menuname": "二二一",
+		"icon": "&#xe626;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "商品分",
+			"url": "/shop/productcatagory.aspx"
+		}, {
+			"menuname": "商品列表",
+			"url": "/shop/product.aspx"
+		}, {
+			"menuname": "商品订单",
+			"url": "/shop/orders.aspx"
+		}]
+	}]
+}, {
+	"menuid": "44",
+	"topicon": "&#xe626;",
+	"menuname": "合同管理",
+	"menu": [{
+		"menuname": "二二一",
+		"icon": "&#xe626;",
+		"url": "http://www.nongfuit.com",
+		"menu": [{
+			"menuname": "商品分",
+			"url": "https://www.baidu.com/"
+		}, {
+			"menuname": "商品列表",
+			"url": "/shop/product.aspx"
+		}, {
+			"menuname": "商品订单",
+			"url": "/shop/orders.aspx"
+		}]
+	}]
+}, {
+	"menuid": "46",
+	"topicon": "&#xe626;",
+	"menuname": "示例示例",
+	"menu": [{
+		"menuname": "二二一",
+		"icon": "&#xe626;",
+		"url": "https://www.baidu.com/",
+		"menu": [{
+			"menuname": "商品分",
+			"url": "/shop/productcatagory.aspx"
+		}, {
+			"menuname": "商品列表",
+			"url": "/shop/product.aspx"
+		}, {
+			"menuname": "商品订单",
+			"url": "/shop/orders.aspx"
+		}]
+	}]
+}]

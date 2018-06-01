@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>banner管理</title>
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+	<link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<link href="/statics/css/cms.css" rel="stylesheet">
+	<!-- 共用样式 -->
+	<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/statics/javascript/banner/validate-comm.js"></script>
+	<script type="text/javascript" src="/statics/javascript/banner/detail.js"></script>
+	<script type="text/javascript" src="/statics/javascript/banner/bannerList.js"></script>
+</head>
+<body>
+<div class="container pd-lf21">
+	<!-- 栏目树 -->
+	<div class="left-tree">
+		<div id="treeDemo" class="ztree"></div>
+	</div>
+	<!-- 列表 -->
+	<table id="dg" data-options="pagination: true, rownumbers:true, toolbar:'#tb', width:'100%', height:'100%', striped:true">
+		<thead>
+			<tr>
+				<th data-options="field:'location',width:'10%'">位置</th>
+				<th data-options="field:'img',width:'20%',align:'center',formatter:formatImg">图片</th>
+				<th data-options="field:'url',width:'30%'">链接</th>
+				<th data-options="field:'sort',width:'10%'">排序</th>
+				<th data-options="field:'upDown',width:'10%',formatter:formatStatus">状态</th>
+				<th data-options="field:'opt',width:'20%',formatter:formatOpt">操作</th>
+			</tr>
+		</thead>
+	</table>
+	
+	<!-- 功能按钮 -->
+	<div id="tb">
+		<div id="addTool">
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="append()">新增</a>
+		</div>
+	</div>
+	<!-- 弹出框 -->
+	<div id="add" style="width: 666px;height:70%;display:none;" data-options="resizable:false, draggable:false">
+	    <form id="ff" method="post" enctype="multipart/form-data">
+	    	<table cellpadding="5" class="this_table">
+	    		<tr>
+	    			<td colspan="4"><span id="sortTip" style="display:none;color: red">相同位置，相同排序已存在，保存将使原来的记录下架</span></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>链接方式:</label></td>
+	    			<td>
+	    				<input type="hidden" name="id" id="bid" />
+	    				<select id="urlType" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="urlType"  style="width:160px;">
+    						<option value="outer" selected>外部链接</option>
+    						<option value="inner">内部链接</option>
+						</select>
+					</td>
+					<td><label>位置:</label></td>
+	    			<td><select id="location2" class="easyui-combotree" name="location" style="width:160px;" ></select></td>	
+	    		</tr>
+	    		<tr>
+	    			<td><label>位置描述:</label></td>
+	    			<td><input class="easyui-textbox" type="text" name="locationText" id="locationtext" data-options="required:true,validType:'blank'"  style="width:160px;"></input></td>
+	    			<td><label>排序:</label></td>
+	    			<td>
+	    				<select id="sort" class="easyui-combobox" data-options="required:true,editable:false,panelHeight:'auto',valueField:'id', textField:'text'" name="sort"  style="width:160px;">
+						</select>
+						
+	    			</td>
+	    		</tr>
+	    		
+	    		<tr class="outer">
+	    			<td><label>标题:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" name="title" id="title" data-options="required:true,validType:'blank'" style="width:360px;"></input></td>
+	    		</tr>	    		
+	    		<tr class="outer">
+	    			<td><label>链接:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" name="url" id="url" data-options="required:true,validType:'blank'"  style="width:360px;"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>图片:</label></td>
+	    			<td colspan="3">
+	    				<input class="easyui-filebox" name="file" id="file" data-options="required:true,prompt:'请选择'"  style="width:360px;">
+	    				<span style="color:red">图片大小不能超过3M</span>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>图片预览:</label></td>
+	    			<td colspan="3">
+	    				<img id="img" src="/statics/images/addimg.png" width="360px" style="height: 120px;width:360px">
+	    			</td>
+	    		</tr>
+	    		<tr class="this_txt inner">
+	    			<td><label>选择内部链接记录:</label></td>
+	    		</tr>
+	    		<tr class="inner">
+	    			<td colspan="4">
+	    				<input type="hidden" name="type" id="type"/>
+    					<!-- 内部链接选择列表 -->
+    					<table id="innerDg" style="width:100%;height:500px"></table>
+					</td>
+	    		</tr>
+	    		<tr>
+		    		<td colspan="4" align="center" class="this_table_center">
+		    			<a class="easyui-linkbutton this_but1" onclick="submitForm()" href="javascript:void(0)">保存</a>
+		    			<a class="easyui-linkbutton this_but3" onclick="clearForm()" href="javascript:void(0)">清空</a>
+		    			<a class="easyui-linkbutton this_but2" onclick="javascript: $('#add').dialog('close');">取消</a>
+		    		</td>
+		    	</tr>
+	    	</table>
+	    </form>
+	    <!-- 功能按钮 -->
+	    <div id="innerTb" style="height:auto">
+	    	栏目：<select id="cmsType" class="easyui-combotree" url="/platform/banner/cmsColumns"  name="cmsType" style="width:200px;height:35px;" ></select>			
+		</div>
+	</div>
+	
+	<!-- 查看框 -->
+	<div id="check" style="width: 666px;height:450px;display:none" data-options="resizable:false, draggable:false">
+	    	<table cellpadding="5" class="this_table">
+	    		<tr>
+	    			<td><label>链接方式:</label></td>
+	    			<td>
+	    				<input class="easyui-textbox" type="text" id="ckTypeUrl" style="width:160px;" disabled></input>
+	    			</td>
+	    			<td><label>位置:</label></td>
+	    			<td><input class="easyui-textbox" type="text" id="ckLoc" style="width:160px;" disabled></input></td>
+	    		</tr>
+				
+	    		<tr>
+	    			<td><label>位置描述:</label></td>
+	    			<td><input class="easyui-textbox" type="text" id="ckLoctext" style="width:160px;" disabled></input></td>
+	    			<td><label>排序:</label></td>
+	    			<td>
+	    				<input class="easyui-textbox" id="ckSort" style="width:160px;" disabled></input>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>标题:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" id="cktitle" style="width:360px;" disabled></input></td>
+	    		</tr>	    		
+	    		<tr>
+	    			<td><label>链接:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" id="ckUrl" style="width:360px;" disabled></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>图片:</label></td>
+	    			<td colspan="3">
+	    				<img id="ckImg" src="/statics/images/addimg.png" style="height: 120px">
+	    			</td>
+	    		</tr>
+	    	</table>
+	</div>
+	<!-- 查看联盟学校 -->
+	<div id="school" style="width: 666px;height:70%;display:none" data-options="resizable:false, draggable:false">
+		<table class="this_table">
+            <tr>
+                <td><label>学校名称：</label></td>
+                <td><input class="easyui-textbox" id="schName" name="schName"  style="width:300px;" disabled/></td>
+            </tr>
+		     <tr>
+                <td><label>学校所在区域 ：</label></td>   
+                <td>
+                	<input class="easyui-textbox" id="area"  style="width:300px;" disabled/>  
+                </td>
+            </tr>
+            
+            <tr>
+                <td><label>学校图片：</label></td>
+                <td id="t_schPhoto"><img id="img1" src="/statics/images/addimg.png" style="height: 120px" /></td>
+            </tr>
+             <tr>
+                <td><label>学校LOGO：</label></td>       
+                <td><img id="img2" src="/statics/images/addimg.png" style="height: 120px" /></td>
+            </tr>
+            <tr>
+                <td><label>校长姓名 ：</label></td>       
+                <td><input class='easyui-textbox' id="preName" name="preName"  style="width:300px;"  disabled/></td>
+            </tr>
+            <!-- <tr>
+				<td><label>头部背景图片 ：</label></td>
+            	<td>
+            		<div class="fitem">
+			            <img id="img3"  src="/statics/images/addimg.png" style="height: 120px"  />
+		        	</div>
+            	</td>
+
+            </tr>
+            <tr>
+           		<td><label>尾部背景图片</label></td>
+            	<td>
+            		<div class="fitem">
+			            <img id="img4"  src="/statics/images/addimg.png" style="height: 120px" />
+		        	</div>
+            	</td>
+            </tr> -->
+            <tr>
+                <td><label>网站主题颜色 ：</label></td>   
+                <td>
+                   <div id="wrapper" style="width:30px; height:30px;"></div>
+                </td>
+            </tr>  
+       	</table>
+	</div>
+	<!-- 查看专家 -->
+	<div id="expert" style="width: 666px;height:60%;display:none" data-options="resizable:false, draggable:false">
+		<table class="this_table">
+	    		<tr>
+	    			<td><label>专家头像:</label></td>
+	    			<td>
+	    				<img id="expertImg" src="/statics/images/addimg.png" style="height: 120px" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>专家姓名:</label></td>
+	    			<td><input class="easyui-textbox" id="expertName"  style="width:240px;" disabled></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>状态:</label></td>
+	    			<td>
+	    				<input class="easyui-textbox" id="status"  style="width:240px;" disabled></input>
+	    				
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>单位:</label></td>
+	    			<td><input class="easyui-textbox" id="unit"  style="width:240px;" disabled></td>
+	    		</tr>
+	    		<tr>
+	                <td><label>主题:</label></td>
+	                <td>
+	                	<input class="easyui-textbox" id="topic"  style="width:240px;" disabled>
+	                </td>
+	               
+          	    </tr>
+	    	</table>
+	</div>
+	<!-- 查看教材 -->
+	<div id="bookText" style="width: 666px;height:60%;display:none" data-options="resizable:false, draggable:false">
+            <table class="this_table">
+                <tr>
+                    <td>教材名称:</td>
+                    <td colspan="3">
+                        <input placeholder="教材名称"  id="booknames" class="easyui-textbox"  style="width:500px;height:35px;" disabled/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>封面:</td>
+                    <td colspan="3">
+                        <div class="fitem">
+                            <img id="coverimgs" src="/statics/images/addimg.png" style="width:300px;height:120px"/>
+                        </div>
+                    </td>
+                </tr>
+              	<tr>
+                    <td>教材作者:</td>
+                    <td colspan="3">
+                        <input   id="bookauthor" class="easyui-textbox"  style="width:500px;height:35px;" disabled/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>教材主题:</td>
+                    <td colspan="3">
+                        <input   id="booktype" class="easyui-textbox"  style="width:500px;height:35px;" disabled/>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>学段：</td>
+                    <td>
+                        <input id="booksection" class="easyui-textbox"  style="width:150px;height:35px;" disabled/>
+                    </td>
+                    <td>年级：</td>
+                    <td>
+                        <input id="bookgrade" class="easyui-textbox"  style="width:150px;height:35px;" disabled/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>购买链接:</td>
+                    <td colspan="3">
+                        <input placeholder="http://..." id="bookUrl" class="easyui-textbox"  style="width:500px;height:35px;" disabled/>
+                    </td>
+                </tr>
+                
+            </table>
+	</div>
+	<div id="tip" style="width:300px;height:220px;padding:10px;display:none;"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhpower.education.platform.dao.SchoolMapper">
+	<!-- 通用查询映射结果 -->
+	<resultMap id="schoolResultMap" type="com.xhpower.education.platform.entity.SchoolEntity">
+		<id column="id" property="id" />
+		<result column="schName" property="schName" />
+		<result column="schDescript" property="schDescript" />
+		<result column="preName" property="preName" />
+		<result column="preSaying" property="preSaying" />
+		<result column="themeColor" property="themeColor" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="area" property="area" />
+		<result column="isTop" property="isTop" />
+		<result column="createTime" property="createTime" />
+		<result column="updateTime" property="updateTime" />
+		<result column="school_url" property="schoolUrl" />
+		<result column="resourceStr" property="resourceStr" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, schName, schDescript, preName, preSaying, themeColor, province,
+		city, area, isTop, createTime, updateTime, school_url AS schoolUrl,
+		resourceStr
+	</sql>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:hdp="http://www.springframework.org/schema/hadoop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+		http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- ====================================================================================== -->
+	<!-- 启用基于注解（Annotation-based）的配置 -->
+	<!-- ====================================================================================== -->
+	<context:annotation-config />
+	
+	<context:component-scan base-package="com.xhpower" />
+
+	<!-- ====================================================================================== -->
+	<!-- 加载属性文件 -->
+	<!-- ====================================================================================== -->
+
+	<context:property-placeholder location="classpath*:db.properties" />
+ 	<import resource="classpath:shiro/spring-config-shiro.xml" />   		
+   <!-- 数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 物理连接初始化的时候执行的sql -->
+        <property name="connectionInitSqls" value="set names utf8mb4;"/>
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${connection.url}"/>
+        <property name="username" value="${connection.username}"/>
+        <property name="password" value="${connection.password}"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 超过时间限制是否回收 -->
+        <property name="removeAbandoned" value="${druid.removeAbandoned}" />
+        <!-- 超过时间限制多长； -->
+        <property name="removeAbandonedTimeout" value="${druid.removeAbandonedTimeout}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${druid.validationQuery}" />
+        <property name="testWhileIdle" value="${druid.testWhileIdle}" />
+        <property name="testOnBorrow" value="${druid.testOnBorrow}" />
+        <property name="testOnReturn" value="${druid.testOnReturn}" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小  如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。-->
+        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${druid.filters}" />
+    </bean>
+
+	 <!-- Spring整合Mybatis，更多查看文档：http://mp.baomidou.com -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 自动扫描Mapping.xml文件 -->
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+         <property name="mapperLocations" value="classpath*:com/xhpower/**/mapper/*.xml" />
+        <property name="typeAliasesPackage" value="com.xhpower.**.entity"/>
+        <property name="plugins">
+            <array>
+                <!-- 分页插件配置 -->
+                <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+                    <property name="dialectType" value="mysql"/>
+                </bean>
+            </array>
+        </property>
+	    <!-- 全局配置注入 -->
+	    <property name="globalConfig" ref="globalConfig" />
+	</bean>
+	<bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+	    <!-- 
+			AUTO->`0`("数据库ID自增")
+		 	INPUT->`1`(用户输入ID")
+			ID_WORKER->`2`("全局唯一ID")
+			UUID->`3`("全局唯一ID")
+		-->
+	    <property name="idType" value="0" />
+		<!--
+			MYSQL->`mysql`
+			ORACLE->`oracle`
+			DB2->`db2`
+			H2->`h2`
+			HSQL->`hsql`
+			SQLITE->`sqlite`
+			POSTGRE->`postgresql`
+			SQLSERVER2005->`sqlserver2005`
+			SQLSERVER->`sqlserver`
+		-->
+		<!-- Oracle需要添加该项 -->
+	    <!-- <property name="dbType" value="oracle" /> -->
+	    <!-- 全局表为下划线命名设置 true -->
+	    <!-- <property name="dbColumnUnderline" value="true" /> -->
+	</bean>
+
+    <!-- MyBatis 动态扫描  -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xhpower.**.dao"/>
+    </bean>
+	
+	<!-- 启用对事务注解的支持 -->
+     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    
+      <!--  配置事务管理 -->
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean> 
+    
+<!--       <bean id="CaptureExceptionHandle"  class="com.xhpower.education.common.CaptureExceptionHandle"></bean>
+ -->       <bean id="pageService" class="com.xhpower.plugins.common.page.ibatis.domain.PageService"></bean>
+    
+        <!-- 引入属性文件 -->
+    <context:property-placeholder location="classpath:config.properties"/>
+	<!-- 加载资源属性文件 -->
+	<context:property-placeholder location="classpath:resources.properties"
+		ignore-unresolvable="true" file-encoding="UTF-8"/>
+		
+	<!-- 加载自定义错误属性文件 -->
+	<context:property-placeholder location="classpath:error.properties"
+		ignore-unresolvable="true" file-encoding="UTF-8" />
+		
+		<!-- Kaptcha验证码生成器 -->
+	<bean id="producer" class="com.google.code.kaptcha.impl.DefaultKaptcha"
+		scope="singleton">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border">no</prop>
+						<prop key="kaptcha.textproducer.font.color">black</prop>
+						<prop key="kaptcha.textproducer.char.space">5</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+</beans>

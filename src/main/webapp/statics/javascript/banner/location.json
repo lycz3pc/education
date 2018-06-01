@@ -1,0 +1,30 @@
+[
+	{
+		"id":"Z1",
+		"text":"总站",
+		"children":[
+			{"id":"Z11","text":"首页","pid":"Z1","children":[
+				{"id":"B1","text":"轮播图位","describe":"总站首页轮播图位","number":"3","pid":"Z11"},
+				{"id":"T1","text":"推荐位","describe":"总站首页推荐位","number":"4","pid":"Z11"},
+				{"id":"X1","text":"联盟学校位","describe":"总站首页学校位","number":"8","pid":"Z11"},
+				{"id":"ZJ1","text":"专家位","describe":"总站首页专家位","number":"6","pid":"Z11"},
+				{"id":"J1","text":"教材位","describe":"总站首页专家位","number":"4","pid":"Z11"}
+			]},
+			{"id":"Z12","text":"阅读.教材","pid":"Z1","children":[
+				{"id":"B2","text":"轮播图位","describe":"阅读.教材轮播图位","number":"3","pid":"Z12"}
+			]}
+		]
+	},
+	{
+		"id":"Z2",
+		"text":"新父母学校",
+		"children":[
+			{"id":"Z21","text":"首页","pid":"Z2","children":[
+				{"id":"B10","text":"轮播图位","describe":"新父母学校首页轮播图位","number":"3","pid":"Z21"}
+			]},
+			{"id":"Z22","text":"家校共育","pid":"Z2","children":[
+				{"id":"B30","text":"展示位","describe":"展示位","number":"3","pid":"Z22"}
+			]}
+		]
+	}
+]

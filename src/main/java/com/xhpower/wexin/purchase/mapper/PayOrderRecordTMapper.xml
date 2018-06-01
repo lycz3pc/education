@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.wexin.purchase.dao.PayOrderRecordTMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.wexin.purchase.entity.PayOrderRecordT">
+		<id column="id" property="id" />
+		<result column="order_no" property="orderNo" />
+		<result column="user_id" property="userId" />
+		<result column="price" property="price" />
+		<result column="status" property="status" />
+		<result column="source" property="source" />
+		<result column="pay_type" property="payType" />
+		<result column="serial_number" property="serialNumber" />
+		<result column="pay_date" property="payDate" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+		<result column="address_id" property="addressId" />
+		<result column="ship_status" property="shipStatus" />
+		<result column="waybill_no" property="waybillNo" />
+	</resultMap>
+	
+	<resultMap id="PurchaseResultMap" type="com.xhpower.wexin.purchase.entity.PurchaseVO">
+		<id column="id" property="id" />
+		<result column="order_no" property="orderNo" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="price" property="price" />
+		<result column="status" property="status" />
+		<result column="pay_type" property="payType" />
+		<result column="pay_date" property="payDate" />
+		<result column="address_id" property="addressId" />
+		<result column="address" property="address" />
+		<result column="ship_status" property="shipStatus" />
+		<result column="waybill_no" property="waybillNo" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_no AS orderNo, user_id AS userId, price, status, source, pay_type AS payType, serial_number AS serialNumber, pay_date AS payDate, create_date AS createDate, update_date AS updateDate, address_id AS addressId, ship_status AS shipStatus, waybill_no AS waybillNo
+    </sql>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="PurchaseColumnList">
+        a.id, a.order_no AS orderNo, a.user_id AS userId, a.price, a.status, a.source, a.pay_type AS payType, a.serial_number AS serialNumber, a.pay_date AS payDate, a.create_date AS createDate, a.update_date AS updateDate, a.address_id AS addressId, a.ship_status AS shipStatus, a.waybill_no AS waybillNo
+    </sql>
+    
+    <select id="selectPurchasePage" parameterType="org.apache.ibatis.session.RowBounds" resultMap="PurchaseResultMap">
+	    select <include refid="PurchaseColumnList"></include>, b.real_name user_name, c.address
+	    from np_wx_pay_order_record_t a left join user_info b on a.user_id = b.user_id left join np_wx_address c on a.address_id=c.id
+	    where a.source='3'
+	    order by a.ship_status
+	    limit #{page.current}, #{page.size}
+    </select>
+
+</mapper>

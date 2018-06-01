@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.education.platform.dao.CmsColumnMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.education.platform.entity.CmsColumn">
+		<id column="id" property="id" />
+		<result column="cloumn_name" property="cloumnName" />
+		<result column="parent_id" property="parentId" />
+		<result column="detail_url" property="detailUrl" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+	
+	<resultMap id="ChildrenResultMap" type="com.xhpower.education.platform.entity.CmsColumnVO">
+		<id column="id" property="id" />
+		<result column="cloumn_name" property="cloumnName" />
+		<result column="cloumn_name" property="text" />
+		<result column="parent_id" property="parentId" />
+		<result column="detail_url" property="detailUrl" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<collection property="children" ofType="com.xhpower.education.platform.entity.CmsColumnVO"
+		    javaType="java.util.List" column="id" select="getChildren"/>
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="BaseColumnList">
+		id, cloumn_name AS cloumnName, parent_id AS parentId, detail_url AS
+		detailUrl, create_time AS createTime, update_time AS updateTime, cloumn_name AS text
+	</sql>
+
+	<select id="getAllChildren" parameterType="com.xhpower.education.platform.entity.CmsColumn" resultMap="ChildrenResultMap">
+		select <include refid="BaseColumnList"/> from np_cms_column where parent_id=#{id, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getChildren" parameterType="com.xhpower.education.platform.entity.CmsColumn"  resultMap="ChildrenResultMap">
+		select <include refid="BaseColumnList"/> from np_cms_column where parent_id=#{id, jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insert" parameterType="com.xhpower.education.platform.entity.CmsColumn">
+		insert into np_cms_column (`id`, cloumn_name, parent_id, detail_url, create_time)
+		values (#{id, jdbcType=VARCHAR}, #{cloumnName, jdbcType=VARCHAR}, #{parentId, jdbcType=VARCHAR}, '/np/cms/detail', #{createTime, jdbcType=TIMESTAMP})
+	</insert>
+</mapper>

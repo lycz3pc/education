@@ -1,0 +1,110 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户管理列表</title>
+    <link href="/statics/css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+    <link href="/statics/css/cms_column.css" rel="stylesheet">
+    <link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <!-- 共用样式 -->
+    <link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/javascript/role/user.js"></script>
+    <script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+	<script src="/statics/js/keydown.js"></script> 
+</head>
+<body>
+<!-- 列表 -->
+<div style="width: 100%;height: 100%">
+    <table id="datagrid" class="easyui-datagrid" data-options="pagination:true, rownumbers:false, rownumbers:false, toolbar:'#tb', width:'101%', height:'100%', striped:true">
+        <thead>
+        <tr>
+        	<th data-options="field:'ck',checkbox:true"></th>
+            <th data-options="field:'name', width:'25%'">用户名称</th>
+            <th data-options="field:'username', width:'25%'">登录账号</th>
+            <th data-options="field:'phone', width:'30%'">手机/电话</th>
+            <!-- <th data-options="field:'startTime', width:'20%'">创建时间</th> -->
+            <th data-options="field:'operation', width:'20%'">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <!-- 功能按钮 -->
+    <div id="tb" style="height:auto">
+       名称: <input id="names" class="easyui-textbox" data-options="prompt:'输入内容', height:'35px'"/>
+        <a id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+        <a id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addLayer();">新增</a>
+    	<a id="grant" class="easyui-linkbutton" onclick="assignDialog();">授予角色</a>
+    </div>
+
+
+    <!-- 弹出框 -->
+    <div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:'true', draggable:false" style="width: 700px;height:50%;">
+        <form id="form" method="post">
+            <table class="this_table" style="margin-left: 10%;width: 70%">
+                <tr style="display: none;">
+                    <td>id:</td>
+                    <td><input id="id" value="0"  class="easyui-textbox" type="text" name="id"/></td>
+                </tr>
+                <tr>
+                    <td colspan="">名称:</td>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="name" name="name" data-options="required:'true', validType: ['name'], missingMessage: '不能为空'" style="width:400px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="">账号:</td>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="username" name="username" data-options="required:'true', validType: ['name'], missingMessage: '不能为空'" style="width:400px;"/>
+                    </td>
+                </tr>
+                <tr id="pspw">
+                    <td colspan=""> 密码:</td>
+                    <td colspan="">
+                   <input class="easyui-textbox" id="password" type="password" name="password" style="width:150px;" data-options="required:'true', validType: ['name','length[6,18]'], missingMessage: '不能为空'" />
+                  </td>
+                    <td colspan=""> 确认密码:</td>
+                    <td><input class="easyui-textbox" id="newpassword" type="password" name="newpassword" data-options="required:'true',validType: ['name','equals[\'#password\']']"  style="width:150px;" /></td>
+                </tr>
+                <tr>
+                <td><label>类型:</label></td>
+                <td class="this-radio" colspan="3">
+                    <input value="0" id="status0" checked type="radio" class="" name="status" /><span>开启</span>
+                    <input value="1" id="status1"  type="radio" name="status" /><span>禁用</span>
+                </td>
+                </tr>
+                <tr>
+                    <td colspan="">手机:</td>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="phone" name="phone" data-options="required:'true', validType: ['name','phone'], missingMessage: '不能为空'" style="width:400px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="">email:</td>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="email" name="email" data-options="required:'true', validType: ['name', 'email'], missingMessage: '不能为空'" style="width:400px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center" class="this_table_center" >
+                        <a class="easyui-linkbutton this_but1" id="save1" onclick="save();">保存</a>
+                        <a class="easyui-linkbutton this_but1" id="update" onclick="update();">保存</a>
+                        <a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+     <div id="grantRoles" style="width: 666px;height:350px;display:none;" data-options="resizable:false, draggable:false">
+    	 <div id="showRoles" style="width:50%; margin:10px auto 20px;"></div>
+    	 <div style="width: 100%;height:100%;text-align: center;">
+    	 	<a class="easyui-linkbutton this_but1" onclick="assignRoles();">保存</a>
+    	 </div>
+    </div>
+</div>
+</body>
+</html>

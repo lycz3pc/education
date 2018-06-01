@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.education.platform.dao.DigitCourseMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.education.platform.entity.DigitCourse">
+		<id column="digit_course_id" property="digitCourseId" />
+		<result column="digit_course_name" property="digitCourseName" />
+		<result column="digit_course_type" property="digitCourseType" />
+		<result column="status" property="status" />
+		<result column="is_book_audio" property="isBookAudio" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        b.digit_course_id AS digitCourseId, b.digit_course_name AS digitCourseName, b.digit_course_type AS digitCourseType, IFNULL(n.`status`, '0') `status`, n.`is_book_audio` AS isBookAudio
+    </sql>
+    
+    <select id="list" resultMap="BaseResultMap" parameterType="com.alibaba.fastjson.JSONObject">
+    	select <include refid="Base_Column_List"></include>
+    	from bak_digit_course b left join np_digit_course_status n on b.digit_course_id=n.digit_course_id
+    	where b.digit_course_type = #{digitCourseType}
+    	and b.digit_course_status = '2'
+    	and b.digit_course_source = '233002'
+    	order by n.`status` DESC, n.is_book_audio DESC
+    	limit #{offset}, #{limit}
+    </select>
+    
+    <select id="listCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    	select count(b.digit_course_id)
+    	from bak_digit_course b left join np_digit_course_status n on b.digit_course_id=n.digit_course_id
+    	where b.digit_course_type = #{digitCourseType}
+    	and b.digit_course_status = '2'
+    	and b.digit_course_source = '233002'
+    	order by n.`status` DESC, n.is_book_audio DESC
+    </select>
+    
+    <select id="selectMaxPosition" resultType="java.lang.String">
+		select (max(IFNULL(`status`, 0)) + 1) AS `status` from `np_digit_course_status`
+	</select>
+    
+    <insert id="insert" parameterType="com.xhpower.education.platform.entity.DigitCourse">
+    	insert into `np_digit_course_status` (`digit_course_id`, `status`, `is_book_audio`) values (#{digitCourseId}, #{status}, #{isBookAudio});
+    </insert>
+
+</mapper>

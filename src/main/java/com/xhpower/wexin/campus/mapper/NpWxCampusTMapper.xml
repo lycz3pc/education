@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.wexin.campus.dao.NpWxCampusTMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.wexin.campus.entity.NpWxCampusT">
+		<id column="id" property="id" />
+		<result column="campus_name" property="campusName" />
+		<result column="register_num" property="registerNum" />
+		<result column="qrcode_source_id" property="qrcodeSourceId" />
+		<result column="is_delete" property="isDelete" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, campus_name AS campusName, register_num AS registerNum, qrcode_source_id AS qrcodeSourceId, is_delete AS isDelete, create_date AS createDate, update_date AS updateDate
+    </sql>
+
+</mapper>

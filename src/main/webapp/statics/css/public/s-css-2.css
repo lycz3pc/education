@@ -1,0 +1,245 @@
+html, body, .container,.datagrid,.container .content{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin:0;
+	padding:0;
+}
+.pd-lf21{
+	padding-left:210px;
+}
+.clear{
+	clear:both;
+}
+/*-----this_table-----*/
+.this_table{
+	margin: 6px auto;
+	border-collapse:separate;
+	border-spacing:0px 10px;
+}
+.this_table td label{
+	text-align: right;
+	display: block;
+	padding-right:6px;
+	font-size:14px;
+}
+.this_table td .textbox,.this_table td input[type="text"]{
+	/*width:360px !important;*/
+	height:36px !important;
+	line-height:36px; 
+	border-radius: 4px;
+    box-sizing: border-box;
+}
+.this_table .this_textarea .textbox{
+	height:240px  !important;
+}
+
+.this_table td .combo a{
+	height: 36px !important;
+	line-height: 36px;
+}
+.this_table td .textbox a{
+	height:36px !important;
+	line-height:36px;
+}
+.this_table td .textbox a span{
+	margin: 0 !important;
+	padding:0 6px;
+}
+.this_table .pagination .pagination-num{
+	height:20px !important;
+}
+/*-----easyui_table行高-----*/
+.datagrid-row{
+	height:44px;
+}
+
+/*-----弹出框-----*/
+.window #tip{
+	padding:36px 10px !important;
+	text-align:center;
+	font-size:16px;
+}
+.window .dialog-button{
+	text-align: center;
+    padding: 10px 5px;
+}
+.window .messager-body{
+	text-align: center;
+	height:auto;
+	font-size:14px;
+	padding:15px 0;
+}
+/*-----table强行适应100%-----*/
+.datagrid-view2 .datagrid-header,.datagrid-view2 .datagrid-body{
+	    box-sizing: content-box;
+	    padding-right:40px;
+	    width:100% !important;
+}
+/*-----txt but 独立占一行做内部连接tr头-----*/
+.this_txt td{
+	padding:0;
+}
+
+/*-----input-----*/
+.this_table td input[type="radio"],.this_table td input[type="checkbox"]{
+	width: 18px;
+	height: 18px;
+	float: left;
+    margin: 0;
+}
+.this-radio,.this-checkbox{
+	height: 36px;
+    line-height: 36px;
+}
+.this-radio span,.this-checkbox span{
+	float: left;
+    height: 18px;
+    line-height: 18px;
+    margin: 0 4px;
+}
+.this_table td .textbox input{
+	width:100% !important;
+    height: 34px !important;
+}
+.this_table td .textbox input:focus{
+	outline:-webkit-focus-ring-color auto 5px;
+}
+
+
+/*-----button-----*/
+.this_table_center{
+	text-align: center;
+}
+.this_table_center a{
+    text-decoration: none;
+    height: 36px;
+    line-height: 36px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid;
+    padding:0 20px;
+    margin:0 5px;
+}
+.this_but1{
+    background: #1da028;
+    color: #ffffff;
+}
+.this_but1:hover{
+    background: #188321;
+    color: #ffffff;
+}
+.this_but2{
+    background: #a7a7a7;
+    color: #ffffff;
+}
+.this_but2:hover{
+    background: #929191;
+    color: #ffffff;
+}
+.this_but3{
+    background: #f29503;
+    color: #ffffff;
+}
+.this_but3:hover{
+    background: #cc820e;
+    color: #ffffff;
+}
+
+/*-----this-button-----*/
+.datagrid-cell,.datagrid-cellt{
+	/*height: 30px;
+    line-height: 32px;*/
+    height: 24px !important;
+    line-height: 22px;
+    text-align:center;
+}
+.datagrid-cell .l-btn,.datagrid-cell a{
+    padding: 0 5px;
+    text-decoration: none;
+    background:none;
+    height: 22px !important;
+    line-height: 20px;
+    box-sizing: border-box;
+    margin: 0 4px;
+    border-radius: 3px 3px 3px 3px;
+}
+.this_but_red{
+    border: 1px solid #f06047;
+    color: #f06047;
+}
+.this_but_red:hover{
+    color: white;
+    background: #f06047;
+}
+.this_but_black{
+	border: 1px solid #444;
+    color: #444;
+}
+.this_but_black:hover{
+	color: white;
+    background: #444;
+}
+.this_but_blue{
+	color: #477af0;
+	border:1px solid #477af0 !important;
+}
+.this_but_blue:hover{
+	background: #477af0;
+    color: white;
+}
+.this_but_yellow{
+    border: 1px solid #ff9d02;
+    color: #ff9d02;
+}
+.this_but_yellow:hover{
+    background: #ff9d02;
+    color: white;
+}
+.this_but_gray{
+	border: 1px solid #c0c0c0;
+    color: #c0c0c0;
+}
+.this_but_gray:hover{
+	background: #c0c0c0;
+    color: white;
+}
+.this_but_green{
+	border: 1px solid #1da028;
+    color: #1da028;
+}
+.this_but_green:hover{
+	background: #1da028;
+    color: white;
+}
+.this_but_violet{
+	border: 1px solid #ff00ff;
+    color: #ff00ff;
+}
+.this_but_violet:hover{
+	background: #ff00ff;
+    color: white;
+}
+.datagrid-cell .l-btn .l-btn-left .l-btn-text{
+	line-height:20px;
+}
+/*-----z_tree icon-----*/
+.ztree li span.button.ico_open{
+	background: url(../../custom/uimaker/images/tree_icons.png) no-repeat -224px 0;
+}
+.ztree li span.button.ico_close{
+	background: url(../../custom/uimaker/images/tree_icons.png) no-repeat -208px 0;
+}
+.ztree li span.button.ico_docu{
+	background: url(../../custom/uimaker/images/tree_icons.png) no-repeat -240px 0;
+}
+/*-----this_messager-----*/
+.messager-window .messager-body .messager-icon{
+	margin: 0 20px;
+}
+.messager-window .messager-body .messager-icon + div{
+	float: left;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+}

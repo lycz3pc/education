@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>菜单管理</title>
+	<!-- 表格样式 -->
+	<link href="/statics/css/cms_column.css" rel="stylesheet">
+	<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+	<!-- 共用样式 -->
+	<!-- 按钮图标样式 -->
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+	<!-- easyui js -->
+	<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+	<!-- ztree相关 -->
+	<link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+	<!-- 业务js -->
+	<script type="text/javascript" src="/statics/javascript/weixin//menu/wxmenu.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	 <script type="text/javascript" src="/statics/javascript/weixin/public/util.js"></script>
+</head>
+<body>
+
+<div class="container pd-lf21">
+		<div class="left-tree">
+			<div id="treeDemo" class="ztree"></div>
+		</div>
+		<table id="datagrid" class="easyui-datagrid" data-options="pagination:true, rownumbers:true, toolbar:'#tb', width:'101%', height:'100%', striped:true">
+			<thead>
+			<tr>
+				<th data-options="field: 'id', width: '20%', align: 'center'">Id</th>
+				<th data-options="field: 'name', width: '20%', align: 'center'">菜单名称</th>
+				<th data-options="field: 'url', width: '20%', align: 'center'">跳转链接</th>
+				<th data-options="field: 'key', width: '20%', align: 'center'">唯一标识</th>
+				<th data-options="field: 'operation', width: '20%', align: 'center'">操作</th>
+			</tr>
+			</thead>
+		</table>
+
+		<div id="tb" class="opt-buttons" style="padding:0 30px;">
+			<a id="add" href="#" class="easyui-linkbutton" data-options="selected:false, iconCls:'icon-add'">新增</a>
+		</div>
+	</div>
+	<div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		<form id="form">
+			<table class="this_table" style="width: 700px;height: 50%">
+				<tr style="display: none;">
+					<td>id:</td>
+					<td><input id="id" value="0" class="easyui-textbox" type="text" name="id"/></td>
+				</tr>
+				<tr style="display: none;">
+					<td>parentId:</td>
+					<td><input id="parentId" value="0" class="easyui-textbox" type="text" name="parentId"/></td>
+				</tr>
+				<tr style="display: none;">
+					<td>level:</td>
+					<td><input id="level" value="2" class="easyui-textbox" type="text" name="level"/></td>
+				</tr>
+				<tr>
+					<td><label>菜单名称:</label></td>
+					<td colspan="3"><input id="name" class="easyui-textbox"  maxlength="20" name="name" style="width: 500px"></td>
+				</tr>
+				<tr>
+				<td><label>菜单类型:</label></td>
+				<td>
+				<select name="type" id="s_type" style="height:35px;width: 100px">
+               	    <option value="请选择">请选择</option>
+               		<option value="view">view</option>
+               		<option value="click">click</option>
+               	</select>
+               	</td>
+				</tr>
+				<tr>
+					<td><label>跳转链接:</label></td>
+					<td colspan="3"><input id="url" class="easyui-textbox" maxlength="20" name="url"  style="width: 500px"/></td>
+				</tr>
+				<tr>
+					<td><label>唯一标识</label></td>
+					<td colspan="3"><input id="key" class="easyui-textbox" maxlength="30" name="key" style="width: 500px"/></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="this_table_center">
+						<a class="easyui-linkbutton this_but1" id="update" onclick="update();">保存</a>
+						<a class="easyui-linkbutton this_but2" id="close" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

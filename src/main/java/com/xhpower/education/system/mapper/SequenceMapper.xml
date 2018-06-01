@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.education.system.dao.SequenceMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.education.system.entity.Sequence">
+		<id column="seq_name" property="seqName" />
+		<result column="current_val" property="currentVal" />
+		<result column="increment_val" property="incrementVal" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        seq_name AS seqName, current_val AS currentVal, increment_val AS incrementVal
+    </sql>
+
+</mapper>

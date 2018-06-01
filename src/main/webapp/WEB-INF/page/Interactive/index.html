@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>互动交流列表</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/easyui.css">
+    <!-- 共用样式 -->
+    <link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+    <!-- 富文本编辑器css不用可不引用 -->
+    <link href="/statics/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <!-- 富文本编辑器js不用可不引用 -->
+    <script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+	<script src="/statics/js/keydown.js"></script> 
+    <style>
+    	.datagrid-view2 {
+		    /* width: 100% !important;
+		    padding-left: 40px;
+		    box-sizing: content-box; */
+		}
+		/* 
+		.datagrid-view2 .datagrid-body table{
+			width:100%;
+		} */
+		
+    </style>
+        </head>
+<body>
+<div class="container">
+    <div id="tb" style="height:auto">
+        标题: <input placeholder="标题" type="text" id="names" name="names" class="easyui-textbox"  style="height:35px;"/>
+        <a href="javascript:void(0)" onclick="query()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+    </div>
+    <!-- 列表 -->
+    <table id="dg" style="width:100%;height:100%" data-options="striped:true"></table>
+
+    </div>
+<div id="questions_detail" class="easyui-dialog" title="" data-options="resizable:false, draggable: false" style="width:800px;height:500px">
+    <form action="/platform/textbook/add"  method="post" enctype="multipart/form-data">
+        <table class="this_table" >
+            <tr>
+                <td>标题:</td>
+                <td colspan="3">
+                    <input placeholder=""  id="plname"  maxlength="30"  readonly class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>标签:</td>
+                <td>
+                    <input placeholder=""  id="tags" name="tag" maxlength="30" readonly  class="input easyui-validatebox"  style="width:150px;height:35px;"/>
+                </td>
+                <td>关注数:</td>
+                <td>
+                    <input placeholder=""  id="attentions" name="attention" maxlength="30" readonly  class="input easyui-validatebox"  style="width:150px;height:35px;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>浏览数:</td>
+                <td>
+                    <input placeholder=""  id="browses" name="browse" maxlength="30" readonly  class="input easyui-validatebox"  style="width:150px;height:35px;"/>
+                </td>
+                <td>发布人:</td>
+                <td>
+                    <input placeholder=""  id="createusers"  maxlength="30" readonly class="input easyui-validatebox"  style="width:150px;height:35px;"/>
+                </td>
+            </tr>
+            <tr class="outer">
+                <td colspan="">描述:</td>
+                <td colspan="3">
+                    <script type="text/plain" name="describe" id="describe"  style="width:500px;height:120px;"></script>
+                </td>
+            </tr>
+            <tr id="btnApp">
+		    	<td colspan="4" align="center" class="this_table_center">
+		    		<a class="easyui-linkbutton this_but1" onclick="submitForm(1)" href="javascript:void(0)">审核通过</a>
+		    		<a class="easyui-linkbutton this_but3" onclick="submitForm(2)" href="javascript:void(0)">审核不通过</a>
+		    		<a class="easyui-linkbutton this_but2" onclick="javascript: $('#questions_detail').dialog('close');">取消</a>
+		    	</td>
+		    </tr>
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        <!-- <a class="easyui-linkbutton this_but2" onclick="javascript: $('#questions_detail').dialog('close');">取消</a> -->
+    </div>
+</div>
+<script type="text/javascript" src="/js/Interactive/interactive.js"></script>
+<style>
+</style>
+</body>
+</html>

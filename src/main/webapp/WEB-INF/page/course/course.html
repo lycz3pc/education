@@ -1,0 +1,47 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>课程管理</title> 
+    <link rel="stylesheet" href="/statics/css/base.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/icon.css">
+    <link rel="stylesheet" href="/statics/css/cms_column.css">
+    <link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css">
+    <!-- 共用样式 -->
+	<link rel="stylesheet" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/javascript/cms/common.js"></script>
+    <script type="text/javascript" src="/statics/javascript/course/course.js"></script>
+</head> 
+<body>
+	<div class="container">
+		<div class="content">
+		<table id="datagrid" class="easyui-datagrid this_table" data-options="pagination: true, rownumbers: true, toolbar: '#tb', fitColumns: true, striped: true" style="width:100%;height:100%">
+			<thead>
+				<tr>
+					<!-- <th data-options="field: 'id', width: '20%', align: 'center'">Id</th> -->
+					<th data-options="field: 'digitCourseName', width: '70%', align: 'center'">课程名称</th>
+					<th data-options="field: 'digitCourseType', width: '10%', align: 'center'">课程类型</th>
+					<!-- <th data-options="field: 'tag', width: '20%', align: 'center'">专业领域</th> -->
+					<!-- <th data-options="field: 'createTime', width: '20%', align: 'center'">创建时间</th> -->
+					<!-- <th data-options="field: 'updateTime', width: '20%', align: 'center'">最后修改时间</th> -->
+					<th data-options="field: 'operation', width: '20%', align: 'center'">操作</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<div id="tb" style="padding:0 30px;">
+			 课程类型：
+			<select id="status" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" style="height:35px;width: 10%" name="status" >
+				<option value="1">视频课程</option>
+				<option value="2">音频课程</option>
+			</select>
+		</div>
+	</div>
+	
+</body> 
+</html>

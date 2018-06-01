@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>角色管理列表</title>
+    <link href="/statics/css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+    <link href="/statics/css/cms_column.css" rel="stylesheet">
+    <link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <!-- 共用样式 -->
+    <link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/javascript/xhpower/xhrole.js"></script>
+    <script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<!-- 列表 -->
+<div style="width: 100%;height: 100%">
+    <table id="datagrid" class="easyui-datagrid" data-options="pagination:true, rownumbers:true, toolbar:'#tb', width:'101%', height:'100%', striped:true">
+        <thead>
+        <tr>
+            <th data-options="field:'id', width:'20%'">角色编号</th>
+            <th data-options="field:'name', width:'25%'">角色名称</th>
+            <th data-options="field:'createTime', width:'25%'">创建时间</th>
+            <th data-options="field:'operation', width:'30%'">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <!-- 功能按钮 -->
+    <div id="tb" style="height:auto">
+       名称: <input id="names" class="easyui-textbox" data-options="prompt:'输入角色名称', height:'35px'"/>
+        <a id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+        <a id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="$('#dlg').dialog('open')">新增</a>
+    </div>
+
+
+    <!-- 弹出框 -->
+    <div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:'true', draggable:false" style="width: 700px;height:50%;">
+        <form id="form" method="post">
+            <table class="this_table" style="margin-left: 10%;width: 70%">
+                <tr>
+                    <td colspan="">名称:<input class="easyui-textbox" id="name" name="name" data-options="required:'true', validType: ['length[1,255]','name', 'checkTextbox[$(\'#id\').val()]'], missingMessage: '不许为空'" style="width:400px;"/></td>
+                </tr>
+                <tr>
+                    <td colspan="">
+                        <div class="left-tree">
+                            <div id="treeDemo" class="ztree"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="" align="center" class="this_table_center">
+                        <input type="hidden"  id="id"/>
+                        <a class="easyui-linkbutton this_but1" id="save" onclick="save();">保存</a>
+                        <a class="easyui-linkbutton this_but1" id="update" onclick="update();">保存</a>
+                        <a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

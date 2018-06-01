@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhpower.education.platform.dao.NpConstantCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.xhpower.education.platform.entity.NpConstantCategory" >
+    <id column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="category_key" property="categoryKey" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    category_id, category_name, category_key
+  </sql>
+
+  
+
+</mapper>

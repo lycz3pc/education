@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>this_icon</title>
+		<link href="/statics/css/base.css" rel="stylesheet">		
+		<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+		<style>
+			body{
+				background: #1da028;
+			}
+			body,div{
+				height: 100%;
+			}
+			.iconfont{
+				color: white;
+				font-size: 24px;
+				border: 1px solid;
+				border-radius: 10000px;
+				padding: 10px;
+				margin: 16px;
+				display: inline-block;
+			}
+		</style>
+		<script>
+			$(function(){
+				for (i=0;i<256;i++) {				
+					i<10?i='0'+i:i;				
+					i>=10&&i<16?tostr16='0'+i.toString(16):tostr16=i.toString(16);
+					$(".all-icon").append("<span class='iconfont'>&#xe6"+tostr16+";</span>");
+					console.log("&#xe6"+tostr16+";");
+				}
+
+			})
+		</script>
+	</head>
+
+	<body>
+		<div class="all-icon">
+
+		</div>
+	</body>
+</html>

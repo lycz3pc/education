@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>菜单管理</title>
+	<!-- 表格样式 -->
+	<link href="/statics/css/cms_column.css" rel="stylesheet">
+	<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+	<!-- 共用样式 -->
+	<!-- 按钮图标样式 -->
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+	<!-- easyui js -->
+	<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+	<!-- ztree相关 -->
+	<link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+	<!-- 业务js -->
+	<script type="text/javascript" src="/statics/javascript/role/menu.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	<style type="text/css">
+		.container .left-tree{
+		    height: 100%;
+		    padding: 0;
+		    box-sizing: border-box;
+		    width:200px;
+		}
+		.container .left-tree .ztree{
+		    padding: 10px 10px;
+		    height: 100%;
+		    box-sizing: border-box;
+		    /* overflow-x: hidden; */
+		    overflow-y: auto;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container pd-lf21">
+	<div class="content">
+		<div class="left-tree">
+			<div id="treeDemo" class="ztree"></div>
+		</div>
+		<table id="datagrid" class="easyui-datagrid" data-options="pagination:true, rownumbers:true, toolbar:'#tb', width:'101%', height:'100%', striped:true">
+			<thead>
+			<tr>
+				<th data-options="field: 'id', width: '33%', align: 'center'">Id</th>
+				<th data-options="field: 'text', width: '33%', align: 'center'">菜单名称</th>
+				<!--<th data-options="field: 'url', width: '20%', align: 'center'">资源路径</th>-->
+				<!--<th data-options="field: 'permission', width: '20%', align: 'center'">权限标识</th>-->
+				<th data-options="field: 'operation', width: '34%', align: 'center'">操作</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		<form id="form">
+			<table class="this_table" style="width: 700px;height: 50%">
+				<tr style="display: none;">
+					<td>id:</td>
+					<td><input id="id" value="0" class="easyui-textbox" type="text" name="id"/></td>
+				</tr>
+			</tr>
+				<tr>
+					<td><label>菜单名称:</label></td>
+					<td><input id="text" class="easyui-textbox"  maxlength="20" name="text" style="width: 160px"></td>
+					<td><label>所属菜单:</label></td>
+					<td><input id="parentId" class="easyui-combotree" name="parentId" style="width:160px;" /></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="this_table_center">
+						<a class="easyui-linkbutton this_but1" id="update" onclick="update();">保存</a>
+							<a class="easyui-linkbutton this_but1" id="save" onclick="save();">保存</a>
+						<a class="easyui-linkbutton this_but2"  onclick="javascript: $('#dialog').dialog('close');">取消</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+</body>
+</html>

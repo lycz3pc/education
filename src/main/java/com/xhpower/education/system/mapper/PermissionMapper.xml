@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhpower.education.system.dao.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.xhpower.education.system.entity.Permission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="BIGINT" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <collection property="children" ofType="com.xhpower.education.system.entity.Permission" javaType="java.util.List"
+     column="{pid=parentId,subid=id}"
+    		select="selectChildren">
+    </collection>
+  </resultMap>
+  <select id="list" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select id, name, parent_id, permission, priority, text, type, url  from np_permission
+	where parent_id = #{parentId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectChildren" parameterType="java.util.Map"  resultType="com.xhpower.education.system.entity.Permission">
+  	select DISTINCT id, name, parent_id as parentId, permission, priority, text, type, url
+  	from np_role_permission rp, np_permission p
+  	where rp.permission_id = p.id 
+  	and p.parent_id =#{parentid} 
+  	and rp.role_id in (${roleids})	
+    order by priority 
+  </select>
+  
+  <select id="selectByRoleIds" parameterType="java.util.List" resultType="com.xhpower.education.system.entity.Permission">
+  	select DISTINCT id, name, parent_id as parentId, permission, priority, text, type, url
+  	from np_role_permission rp, np_permission p
+  	where rp.permission_id = p.id
+  	and p.parent_id = -1 
+  	and rp.role_id in
+    	<foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+    		#{roleId}
+    	</foreach>
+    order by priority 
+  </select>
+ 
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhpower.education.platform.dao.CmsEntityMapper">
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.education.platform.entity.CmsEntity">
+		<id column="id" property="id" />
+		<result column="type" property="type" />
+		<result column="title" property="title" />
+		<result column="subheading" property="subheading" />
+		<result column="cover_url" property="coverUrl" />
+		<result column="content" property="content" />
+		<result column="accessory" property="accessory" />
+		<result column="create_user" property="createUser" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="from" property="from" />
+		<result column="position" property="position" />
+		<result column="theme" property="theme" />
+		<result column="browse" property="browse" />
+		<result column="news" property="news" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, type, title, subheading, cover_url AS coverUrl, content, accessory,
+		create_user AS createUser, create_time AS createTime, update_time AS updateTime,
+		from, position, theme, browse, news
+	</sql>
+	
+	<select id="selectMaxPosition" parameterType="com.xhpower.education.platform.entity.CmsEntity"
+	    resultType="java.lang.Integer">
+		select (max(position) + 1) position from np_cms where type=#{type,jdbcType=INTEGER}
+	</select>
+</mapper>

@@ -1,0 +1,162 @@
+html, body, .container, .datagrid {
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.this_table {
+	margin: 6px auto;
+	border-collapse: separate;
+	border-spacing: 0px 10px;
+}
+
+.this_table td label {
+	text-align: right;
+	display: block;
+	padding-right: 6px;
+	font-size: 14px;
+}
+
+.this_table td .textbox, .this_table td input[type="text"] {
+	/*width:360px !important;*/
+	height: 36px !important;
+	line-height: 36px;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.this_table .this_textarea .textbox {
+	height: 240px !important;
+}
+
+.this_table td .combo a {
+	height: 36px !important;
+	line-height: 36px;
+}
+
+.this_table td .textbox a {
+	height: 36px !important;
+	line-height: 36px;
+}
+
+.this_table td .textbox a span {
+	margin: 0 !important;
+	padding: 0 6px;
+}
+
+/*-----input-----*/
+.this_table td input[type="radio"], .this_table td input[type="checkbox"]
+	{
+	width: 18px;
+	height: 18px;
+	float: left;
+	margin: 0;
+}
+
+.this-radio, .this-checkbox {
+	height: 36px;
+	line-height: 36px;
+}
+
+.this-radio span, .this-checkbox span {
+	float: left;
+	height: 18px;
+	line-height: 18px;
+	margin: 0 4px;
+}
+
+.this_table td .textbox input {
+	width: 100% !important;
+	height: 34px !important;
+}
+
+.this_table td .textbox input:focus {
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+/*-----button-----*/
+.this_table_center {
+	text-align: center;
+}
+
+.this_table_cente button {
+	text-decoration: none;
+	height: 36px;
+	line-height: 36px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	border: 1px solid;
+	padding: 0 20px;
+	margin: 0 5px;
+}
+
+.this_but1 {
+	background: #1da028;
+	color: #ffffff;
+}
+
+.this_but1:hover {
+	background: #188321;
+	color: #ffffff;
+}
+
+.this_but2 {
+	background: #a7a7a7;
+	color: #ffffff;
+}
+
+.this_but2:hover {
+	background: #929191;
+}
+
+/*-----this-button-----*/
+.datagrid-cell, .datagrid-cellt {
+	/*height: 30px;
+    line-height: 32px;*/
+	height: 24px !important;
+	line-height: 22px;
+	text-align: center;
+}
+
+.datagrid-cell .l-btn, .datagrid-cell a {
+	padding: 0 5px;
+	text-decoration: none;
+	background: none;
+	height: 22px !important;
+	line-height: 20px;
+	box-sizing: border-box;
+	margin: 0 4px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+.datagrid-cell .l-btn:nth-child(1), .datagrid-cell a:nth-child(1) {
+	border: 1px solid #f06047;
+	color: #f06047;
+}
+
+.datagrid-cell .l-btn:nth-child(1):hover, .datagrid-cell a:nth-child(1):hover
+	{
+	color: white;
+	background: #f06047;
+}
+
+.datagrid-cell .l-btn:nth-child(2), .datagrid-cell a:nth-child(2) {
+	border: 1px solid #444;
+	color: #444;
+}
+
+.datagrid-cell .l-btn:nth-child(2):hover, .datagrid-cell a:nth-child(2):hover
+	{
+	color: white;
+	background: #444;
+}
+
+.datagrid-cell .l-btn .l-btn-left .l-btn-text {
+	line-height: 20px;
+}

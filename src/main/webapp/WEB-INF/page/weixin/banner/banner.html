@@ -1,0 +1,114 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>热文管理</title> 
+    <link rel="stylesheet" href="/statics/css/base.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/icon.css">
+    <link rel="stylesheet" href="/statics/css/cms.css">
+    <link rel="stylesheet" href="/statics/js/umeditor/themes/default/css/umeditor.css">
+    <!-- 共用样式 -->
+	<link rel="stylesheet" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="/statics/javascript/weixin/public/util.js"></script>
+    <script type="text/javascript" src="/statics/javascript/weixin/banner/banner.js"></script>
+</head> 
+<body>
+	<div class="container">
+		<!-- 数据显示 -->
+		<div class="content">
+			<table id="datagrid" class="easyui-datagrid this_table" data-options="pagination: true, rownumbers: true, toolbar: '#tb', fitColumns: true, striped: true" style="width:100%;height:100%">
+				<thead>
+					<tr>
+						<th data-options="field: 'title', width: '20%'">标题</th>
+						<th data-options="field: 'url', width: '20%'">链接</th>
+						<th data-options="field: 'img', width: '20%',formatter:formatImg">图片</th>
+						<th data-options="field: 'createTime', width: '10%', align: 'center'">创建时间</th>
+						<th data-options="field: 'updateTime', width: '10%', align: 'center'">更新时间</th>
+						<th data-options="field: 'operation', width: '20%', align: 'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<!-- 工具栏 -->
+		<div id="tb">
+			标题: <input id="searchTitle" class="easyui-textbox" placeholder="标题" type="text" name="title" style="height:35px;"/>
+			<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls: 'icon-search'">查询</a>
+			<a id="add" href="#" class="easyui-linkbutton" data-options="iconCls: 'icon-add'">发布</a>
+		</div>
+		<!-- 新增，修改窗 -->
+		<div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		    <form id="form">
+			    <table class="this_table">
+		    		<tr style="display: none;">
+		    			<td>id:</td>
+		    			<td><input id="id" value="0" class="easyui-textbox" name="id"></input></td>
+		    		</tr>
+		    		<tr>
+	    			<td><label>标题:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" name="title" id="title" data-options="required:true,missingMessage: '必填项'" style="width:360px;"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>链接:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" name="url" id="url" data-options="required:true,missingMessage: '必填项'" style="width:360px;"></input></td>
+	    
+		    		<tr>
+		    			<td>图片:</td>
+		    			<td>
+		    				<input id="coverUrl" data-options="required:true,missingMessage: '必填项'" style="width:360px;"></input>
+		    				<input id="coverId" name="coverId" style="display: none;"></input>
+		    				<input id="coverName" name="coverName" style="display: none;"></input>
+		    				<input id="coverPath" name="coverPath" style="display: none;"></input>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td><label>预览:</label></td>
+		    			<td><img id="coverImg" src="/statics/images/addimg.png" style="height: 120px"></td>
+		    		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="4" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but1" onclick="save();">保存</a>
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');disLoad();">取消</a>
+		    			</td>
+		    		</tr>
+		    	</table>
+		    </form>
+		</div>
+		
+		<!-- banner图详情 -->
+		<div id="getBanner" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		    <form id="banner_form">
+			    <table class="this_table">
+		    		<tr>
+	    			<td><label>标题:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" name="titles" id="titles" data-options="editable:false" style="width:360px;"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>链接:</label></td>
+	    			<td colspan="3"><input class="easyui-textbox" name="urls" id="urls" data-options="editable:false" style="width:360px;"></input></td>
+
+		    		<tr>
+		    			<td><label>图片:</label></td>
+		    			<td><img id="coverImgs" src="/statics/images/addimg.png" style="height: 120px"></td>
+		    		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="4" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#banner_form').dialog('close');disLoad();">取消</a>
+		    			</td>
+		    		</tr>
+		    	</table>
+		    </form>
+		</div>
+		
+	</div>
+</body> 
+</html>

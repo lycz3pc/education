@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>专家管理</title>
+	<link href="/statics/css/base.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+	<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	
+	<!-- 富文本编辑器css不用可不引用 -->
+	<link href="/statics/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <!-- 共用样式 -->
+	<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+	<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/statics/javascript/banner/validate-comm.js"></script>
+	<!-- 富文本编辑器js不用可不引用 -->
+	<script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.config.js"></script>
+   	<script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.min.js"></script>
+	<script type="text/javascript" src="/statics/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="/statics/util/file.js"></script>
+	<!-- 拓展验证 -->
+	<script type="text/javascript" src="/js/expert/validate.js"></script>
+	<script src="/statics/js/keydown.js"></script> 
+	<script src="/statics/javascript/expert/expertList.js"></script> 
+	<style type="text/css">
+		.easyui-validatebox{
+		    height: 36px !important;
+		    line-height: 36px;
+		    border-radius: 4px;
+		    box-sizing: border-box;	
+		}
+		.this_table select {
+		    height: 35px;
+		    width: 238px !important;
+		    box-sizing: border-box;
+		    border-radius: 4px;   
+		    padding-left: 6px; 
+		}
+		.isupdate{
+		    height: 36px;
+		    line-height: 36px;
+		    text-align:center;
+		    box-sizing: border-box;
+		    vertical-align: top;
+		    padding: 0;
+		    font-size: 14px;
+		    margin-left: -10px;
+		    background: #e8e8e8;
+		    border-radius: 4px;
+		    border: 1px solid #adadad;
+		    width: 60px;
+		    border-top-left-radius: 0;
+		    border-bottom-left-radius: 0;
+		    display:inline-block;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<!-- 列表 -->	
+	<table id="dg" style="width:100%;height:100%"></table>
+	
+	<!-- 功能按钮 -->
+	<div id="tb" style="height:auto">
+		<input class="easyui-textbox" name="name" id="queryName" data-options="prompt:'输入专家名字'" style="height:35px;"/>
+		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="search" onclick="query()">查询</a>
+		 <a href="javascript:void(0)" onclick="append()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+	</div>
+	<!-- 弹出框 -->
+	<div id="add" style="display:none;width: 666px;height:480px;">
+		<div>
+	    <form id="ff" method="post" enctype="multipart/form-data">
+	        <input type="hidden" name="id" id="eid" />
+	        <input type="hidden" name="userId" id="userId" />
+	    	<table cellpadding="5" class="this_table">
+    		 	<tr>
+	    			<td><label>专家账号:</label></td>
+	    			<td><input class="easyui-validatebox" id="telephone"  name="telephone" placeholder="格式:18888888888" data-options="validType:['blank','length[1,100]','checkAccount[\'#eid\']','mobile'],required:true,"   style="width:240px;"></input></td>
+	    		</tr>
+    			<tr style="display:none">
+	    			<td><label>专家密码:</label></td>
+	    			<td><input class="easyui-textbox"  type="password"  id="password"  name="password" data-options="validType:['blank','length[6,50]'],required:true,hidden:'true'" style="width:240px;"></input><!-- <a id="zjmm" class="isupdate" onclick="updatePass()">修改</a> --></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>专家姓名:</label></td>
+	    			<td><input class="easyui-textbox" id="name"  name="name" data-options="validType:['blank','length[1,100]'],required:true"  style="width:240px;"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>性别:</label></td>
+	    			<td>
+	    				<select id="sex" name="sex" style="width:240px;">
+	    					<option value="1">男</option>
+	    					<option value="0">女</option>
+	    				</select>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>专家邮箱:</label></td>
+	    			<td><input class="easyui-validatebox" id="email"  name="email" data-options="validType:['blank','length[1,100]','checkEmail[\'#eid\']','email'],required:true"  style="width:240px;"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>提问费用:</label></td>
+	    			<td><input class="easyui-numberbox" id="charge"  name="charge" data-options="min:0.01,precision:2,required:true,validType:['blank','length[1,100]']" style="width:240px;"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>围观收费比例:</label></td>
+	    			<td><input class="easyui-numberbox" id="chargeRate"  name="chargeRate" data-options="min:0,max:100,precision:2,required:true,validType:['blank','length[1,100]']", style="width:240px;">(单位:%)</input></td>
+	    		</tr>
+	    		<!-- <tr>
+	    			<td><label>围观收费额:</label></td>
+	    			<td><input class="easyui-numberbox" id="chargeRate"  name="chargeRate" data-options="min:0,max:100,precision:2,required:true,validType:['blank','length[1,100]']", style="width:240px;">(单位:%)</input></td>
+	    		</tr> -->
+	    		<tr>
+	                <td><label>专家图片:</label></td>
+	                <td><input class="easyui-filebox" id="expertPho" name="file"  /><span style="color:red">图片大小不能超过3M,建议尺寸221px*221px</span></td>
+<!-- 	                <td></td> -->
+          	    </tr>
+          	    <tr>
+					<td><label></label></td>
+	            	<td>
+	            		<div class="fitem">	            
+				            <img id="img1" src="/statics/images/addimg.png" style="width:225px;height: 120px" />
+			        	</div>
+	            	</td>
+	            </tr>
+	            <tr>
+	                <td><label>主题:</label></td>
+	                <td><select id="type" name="topicIds" style="width:240px;" ></select><input type="hidden" name="topic" id="topicIds" /></td>
+	               
+          	    </tr>
+          	    <tr>
+	                <td><label>学段:</label></td>
+	                <td><select id="section" name="sectionId" style="width:240px;"></select><input type="hidden" name="section" id="sectionId" /></td>
+	                 	
+          	    </tr>
+	    		<tr class="outer">
+	    			<td><label>状态:</label></td>
+	    			<td>
+	    				<select id="status" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="status"  style="width:240px;">
+							    <option value="0">待审核</option>
+							    <option value="1">已通过</option>
+						</select>
+	    			</td>
+	    		</tr>
+	    		<tr class="outer">
+	    			<td><label>单位:</label></td>
+	    			<td><input class="easyui-textbox" name="unit" id="unit" data-options="validType:['blank','length[1,250]'],required:true"  style="width:240px;"></td>
+	    		</tr>
+<!-- 	    		<tr> -->
+<!-- 	    			<td><label>简介:</label></td> -->
+<!-- 	    			<td class="this_textarea"  colspan="2"><textarea class="easyui-textbox" id="synopsis" name="synopsis" data-options="multiline:true,validType:['blank','length[1,250]'],required:true"  style="width:400px;height:240px;"></textarea></td> -->
+<!-- 	    		</tr> -->
+	    		<tr class="outer">
+	    		    <td><label>教学情况:</label></td>
+	    			<td><script type="text/plain" id="textarea1" name="teachSitu" style="width:400px;height:150px;"></script></td>
+	    		</tr>
+	    		<tr class="outer">
+	    		    <td><label>科研情况:</label></td>
+	    			<td><script type="text/plain" id="textarea2" name="scificRes" style="width:400px;height:150px;"></script></td>
+	    		</tr>
+	    		<tr class="outer">
+	    		    <td><label>科研获奖情况:</label></td>
+	    			<td><script type="text/plain" id="textarea3" name="scificAwards" style="width:400px;height:150px;"></script></td>
+	    		</tr>
+	    		<tr class="outer">
+	    			<td><label>职务:</label></td>
+	    			<td class="this_textarea"  colspan="2"><textarea prompt="多职务请用英文逗号分隔" class="easyui-textbox" name="achievement" id="achievement" data-options="multiline:true,validType:['blank','length[1,250]'],required:true"  style="width:400px;height:240px;"></textarea></td>
+	    		</tr>
+<!-- 	    		<tr> -->
+<!-- 	    			<td><label>排序:</label></td> -->
+<!-- 	    			<td> -->
+<!-- 	    				<input class="easyui-numberbox" name="sort" id="sort" data-options="required:true,min:1"  style="width:240px;"> -->
+<!-- 	    			</td> -->
+<!-- 	    		</tr> -->
+	    		<tr>
+		    		<td colspan="4" align="center" class="this_table_center">
+		    			<a class="easyui-linkbutton this_but1" onclick="submitForm()" href="javascript:void(0)">保存</a>
+		    			<a class="easyui-linkbutton this_but2" onclick="clearForm()" href="javascript:void(0)">重置</a>
+		    		</td>
+		    	</tr>
+	    	</table>
+	    </form>
+	    </div>
+	   <!--  <div id="innerTb" style="height:auto">
+	    	<select id="cmsType" class="easyui-combotree" url="/platform/banner/cmsColumns"  name="cmsType" style="width:200px;height:35px;" ></select>			
+	    </div> -->
+	</div>
+	<div id="tip" style="width:400px;height:200px;padding:10px;display:none;"></div>
+	<!-- <div id="tip" style="width:400px;height:200px;padding:10px;display:none;"></div> -->
+</div>
+</body>
+
+</html>

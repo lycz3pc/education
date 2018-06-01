@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>评论列表</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+    <!-- 共用样式 -->
+    <link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+    <!-- 富文本编辑器css不用可不引用 -->
+    <link href="/statics/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <!-- 富文本编辑器js不用可不引用 -->
+    <script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+        </head>
+<body>
+    <div id="tb" style="height:auto">
+      <form action="/archives/index" id="wordbook_form" method="post">
+        所属标题: <input  type="text" id="name" name="name"  readonly style="height:35px;width: 50%"/>
+        相关内容: <input placeholder="内容" type="text" id="content" name="content"  style="height:35px;"/>
+          <a href="javascript:void(0)" onclick="query()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+        <a href="/admin/Interactive/index.html"  class="easyui-linkbutton">返回</a>
+        <input id="id" name="id" type="hidden"/>
+        </form>
+    </div>
+<!-- 列表 -->
+<table id="dg" style="width:100%;height:100%" data-options="striped:true"></table>
+    <div id="answer" class="easyui-dialog" title="" data-options="resizable:false, draggable: false" style="width:50%;height:550px">
+        <form action="/platform/textbook/add"  method="post" enctype="multipart/form-data">
+            <table class="this_table"  >
+                <tr>
+                    <td>顶数:</td>
+                    <td>
+                        <input placeholder=""  id="attention" name="attention" maxlength="30"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>踩数:</td>
+                    <td>
+                        <input placeholder=""  id="browse" name="browse" maxlength="30"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>评论人:</td>
+                    <td>
+                        <input placeholder=""  id="createuser" name="createUser" maxlength="30"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>内容:</td>
+                    <td>
+                        <script type="text/plain" name="content" id="contents" style="width:500px;height:240px;"></script>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <a class="easyui-linkbutton this_but2" onclick="javascript: $('#answer').dialog('close');">取消</a>
+        </div>
+    </div>
+
+
+    <div id="answer_detail" class="easyui-dialog" title="" data-options="resizable:false, draggable: false" style="width:800px;height:450px">
+        <form>
+            <table class="this_table"  >
+                <tr>
+                    <td>评论人:</td>
+                    <td colspan="3">
+                        <input placeholder=""  id="createusers" name="createUser" readonly maxlength="30"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>顶数:</td>
+                    <td>
+                        <input placeholder=""  id="attentions" name="attention" readonly maxlength="30"  class="input easyui-validatebox"  style="width:150px;height:35px;"/>
+                    </td>
+                    <td>评论数:</td>
+                    <td>
+                        <input placeholder=""  id="comments" name="comments" readonly maxlength="30"  class="input easyui-validatebox"  style="width:150px;height:35px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>内容:</td>
+                    <td colspan="3">
+                        <script type="text/plain" name="feature" id="plcontent" style="width:500px;height:120px;"></script>
+                    </td>
+                </tr>
+                <tr id="btnApp">
+		    	<td colspan="4" align="center" class="this_table_center">
+		    		<a class="easyui-linkbutton this_but1" onclick="submitForm(1)" href="javascript:void(0)">审核通过</a>
+		    		<a class="easyui-linkbutton this_but3" onclick="submitForm(2)" href="javascript:void(0)">审核不通过</a>
+		    		<a class="easyui-linkbutton this_but2" onclick="javascript: $('#answer_detail').dialog('close');">取消</a>
+		    	</td>
+		    </tr>
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <!-- <a class="easyui-linkbutton this_but2" onclick="javascript: $('#answer_detail').dialog('close');">取消</a> -->
+        </div>
+    </div>
+<script type="text/javascript" src="/js/Interactive/answer.js"></script>
+</body>
+</html>

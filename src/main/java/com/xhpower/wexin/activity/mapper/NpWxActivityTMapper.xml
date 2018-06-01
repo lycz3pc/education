@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.wexin.activity.dao.NpWxActivityTMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.wexin.activity.entity.NpWxActivityT">
+		<id column="h_id" property="hId" />
+		<result column="h_title" property="hTitle" />
+		<result column="h_content" property="hContent" />
+		<result column="start_date" property="startDate" />
+		<result column="end_date" property="endDate" />
+		<result column="activity_type" property="activityType" />
+		<result column="activity_source_id" property="activitySourceId" />
+		<result column="activity_price" property="activityPrice" />
+		<result column="collection_num" property="collectionNum" />
+		<result column="partake_num" property="partakeNum" />
+		<result column="batch_user_id" property="batchUserId" />
+		<result column="is_delete" property="isDelete" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        h_id AS hId, h_title AS hTitle, h_content AS hContent, start_date AS startDate, end_date AS endDate, activity_type AS activityType, activity_source_id AS activitySourceId, activity_price AS activityPrice, collection_num AS collectionNum, partake_num AS partakeNum, batch_user_id AS batchUserId, is_delete AS isDelete, create_date AS createDate, update_date AS updateDate
+    </sql>
+
+</mapper>

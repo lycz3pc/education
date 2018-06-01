@@ -1,0 +1,9 @@
+[{"id":"1", "text":"首页", "column":"/index"},
+{"id":"2", "text":"校园动态", "column":"/dynamic"},
+{"id":"3", "text":"校务管理", "column":"/affairs"},
+{"id":"4", "text":"教师发展", "column":"/teacher"},
+{"id":"5", "text":"学生成长", "column":"/student"},
+{"id":"6", "text":"校友录", "column":"/alumna"},
+{"id":"7", "text":"国际教育", "column":"/international"},
+{"id":"8", "text":"招生招聘", "column":"/recruit"},
+{"id":"9", "text":"阳光办事中心", "column":"/work"}]

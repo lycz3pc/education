@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>家校共育运营管理系统</title>
+		<link href="/statics/css/base.css" rel="stylesheet">
+		<link href="/statics/css/platform.css" rel="stylesheet">
+		<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+		<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+		<style>
+			#tabs_deletes{
+				display: none;font-size:14px;position: absolute;padding:15px;z-index:99999;
+			}
+			#tabs_deletes ul{
+				border:1px solid #e3e3e3;border-radius:4px;
+			}
+			#tabs_deletes ul li{
+				background: white;
+				color: black;
+				padding: 8px 32px;
+			}
+			#tabs_deletes ul li:nth-child(2){
+				border-top:1px solid #e3e3e3;
+				border-bottom:1px solid #e3e3e3;
+			}
+			#tabs_deletes ul li:hover{
+				background: #1da028;
+				color: white;
+			}
+			</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="pf-hd">
+				<div class="pf-logo">
+					<img src="/statics/images/main/main_logo.png" alt="logo">
+				</div>
+
+				<div class="pf-nav-wrap">
+					<div class="pf-nav-ww">
+						<ul class="pf-nav" id="rootMenu">
+<!-- 							<li class="pf-nav-item home current" data-menu="sys-manage"> -->
+<!-- 								<a href="javascript:;"> -->
+<!-- 									<span class="iconfont">&#xe63f;</span> -->
+<!-- 									<span class="pf-nav-title">系统管理</span> -->
+<!-- 								</a> -->
+<!-- 							</li> -->
+<!-- 								<li class="pf-nav-item home" data-menu="sys-manage"> -->
+<!-- 								<a href="javascript:;"> -->
+<!-- 									<span class="iconfont">&#xe63f;</span> -->
+<!-- 									<span class="pf-nav-title">系统管理</span> -->
+<!-- 								</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="pf-nav-item home" data-menu="sys-manage"> -->
+<!-- 								<a href="javascript:;"> -->
+<!-- 									<span class="iconfont">&#xe63f;</span> -->
+<!-- 									<span class="pf-nav-title">公众号管理</span> -->
+<!-- 								</a> -->
+<!-- 							</li> -->
+							
+						</ul>
+					</div>
+
+					<a href="javascript:;" class="pf-nav-prev disabled iconfont">&#xe606;</a>
+					<a href="javascript:;" class="pf-nav-next iconfont">&#xe607;</a>
+				</div>
+
+				<div class="pf-user">
+					<div class="pf-user-photo">
+						<img src="/statics/images/main/user.png" alt="">
+					</div>
+					<h4 class="pf-user-name ellipsis"></h4>
+					<i class="iconfont xiala">&#xe607;</i>
+
+					<div class="pf-user-panel">
+						<ul class="pf-user-opt">
+							<li onclick="showInfo();">
+								<a href="javascript:void(0);">
+									<i class="iconfont">&#xe60d;</i>
+									<span class="pf-opt-name">用户信息</span>
+								</a>
+							</li>
+							<li class="pf-modify-pwd" onclick="popChangePwd();">
+								<a href="javascript:void(0);">
+									<i class="iconfont">&#xe634;</i>
+									<span class="pf-opt-name">修改密码</span>
+								</a>
+							</li>
+							<li class="pf-logout">
+								<a href="javascript:void(0);">
+									<i class="iconfont">&#xe60e;</i>
+									<span class="pf-opt-name">退出</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="pf-bd">
+				<!-- 左边菜单 -->
+				<div id="pf-sider">
+					
+				</div>
+
+				<div id="pf-page" class="easyui-tabs" style="width:100%;height:100%;">
+					<div title="首页" style="text-align:center;background:url(/statics/images/loginbg.png) no-repeat center center">
+						<!-- <iframe class="page-iframe" src="/system/workbench.html" frameborder="no" border="no" height="100%" width="100%" scrolling="auto"></iframe> -->
+						<!-- <img style="margin-top: 40px;" src="/statics/images/loginbg.png"/> -->
+						<h1 style="font-size: 22px;margin-top: 40px;">欢迎登录家校共育运营管理系统!</h1>
+						
+					</div>
+				</div>
+				<div id="tabs_deletes">
+					<ul>
+						<li class="tabs_deletes">关闭</li>
+						<li class="tabs_deletes_all">关闭所有</li>
+						<li class="tabs_deletes_else">关闭其他</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 用户信息 -->
+			<div id="userInfo" style="width: 400px;height:250px;display:none;" data-options="resizable:false, draggable:false">
+	    		<table cellpadding="5" class="this_table">
+	    			<tr>
+	    				<td><label>姓名:</label></td>
+	    				<td>
+	    					<span id="infoName"></span>
+						</td>
+	    			</tr>
+	    			<tr>
+	    				<td><label>账号:</label></td>
+	    				<td>
+	    					<span id="infousername"></span>
+						</td>
+	    			</tr>
+	    			<tr>
+	    				<td><label>电话/手机:</label></td>
+	    				<td>
+	    					<span id="infoPhone"></span>
+						</td>
+	    			</tr>
+	    			<tr>
+	    				<td><label>邮箱:</label></td>
+	    				<td>
+	    					<span id="infoEmail"></span>
+						</td>
+	    			</tr>
+	    		</table>
+			</div>
+			<!-- 修改密码 -->
+			<div id="changePwd" data-options="resizable:'true', draggable:false" style="width: 500px;height:300px;">
+            <table class="this_table" style="margin-left: 10%;width: 70%"> 
+                <tr>
+                    <td> 旧密码:</td>
+                    <td>
+                   		<input class="easyui-textbox" data-options="required:true, validType:'validatePwd'" id="password" type="password" name="password" style="width:200px;"/>
+                  	</td>
+                </tr>
+                <tr>
+                    <td> 新密码:</td>
+                    <td>
+                   		<input class="easyui-textbox" data-options="required:true, validType:['validatePwd']" id="newPassword" type="password" name="newPassword" style="width:200px;"/>
+                  	</td>
+                </tr>
+                <tr>
+                    <td> 确认密码:</td>
+                    <td>
+                   		<input class="easyui-textbox" data-options="required:true, validType:'equals[\'#newPassword\']'" id="repeatPwd" type="password" name="repeatPwd" style="width:200px;"/>
+                  	</td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center" class="this_table_center" >
+                        <a class="easyui-linkbutton this_but1" id="save" onclick="changePwd();">保存</a>
+                        <a class="easyui-linkbutton this_but2" onclick="javascript: $('#changePwd').dialog('close');">取消</a>
+                    </td>
+                </tr>
+            </table>
+    		</div>
+    		<div id="tip" style="width:300px;height:220px;padding:10px;display:none;">您确定要退出系统吗？</div>
+			
+			<div id="pf-ft">
+				<div class="system-name">
+					<i class="iconfont">&#xe6fe;</i>
+					<span>家校共育运营管理系统&nbsp;v1.0</span>
+				</div>
+				<div class="copyright-name">
+					<span>CopyRight&nbsp;2017&nbsp;&nbsp;湖南教育出版社&nbsp;版权所有</span>
+					<i class="iconfont">&#xe6ff;</i>
+				</div>
+			</div>
+		</div>
+		<!-- <a style="background:red;color:white;padding:10px 30px;position:absolute;bottom:0;left:150px;z-index:99999" href="this_icon/this_icon.html">icon</a> -->
+		<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+		<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+		<!-- <script type="text/javascript" src="js/menu.js"></script> -->
+		<script type="text/javascript" src="/statics/js/main.js"></script>
+		<script type="text/javascript" src="/statics/javascript/index/main-user.js"></script>
+		<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+		<!--[if IE 7]>
+      <script type="text/javascript">
+        $(window).resize(function(){
+          $('#pf-bd').height($(window).height()-76);
+        }).resize();
+        
+      </script>
+    <![endif]-->
+
+		<script type="text/javascript">
+			
+			$(window).resize(function() {
+				$('.tabs-panels').height($("#pf-page").height() - 46);
+				$('.panel-body').height($("#pf-page").height() - 76)
+			}).resize();
+			var page = 0,
+				pages = ($('.pf-nav').height() / 70) - 1;
+			console.debug($('.pf-nav').height());
+			if (pages < 0) {
+				$('.pf-nav-prev,.pf-nav-next').hide();
+			}
+			$(document).on('click', '.pf-nav-prev,.pf-nav-next', function() {
+				if ($(this).hasClass('disabled')) return;
+				if ($(this).hasClass('pf-nav-next')) {
+					page++;
+					$('.pf-nav').stop().animate({
+						'margin-top': -70 * page
+					}, 200);
+					if (page == pages) {
+						$(this).addClass('disabled');
+						$('.pf-nav-prev').removeClass('disabled');
+					} else {
+						$('.pf-nav-prev').removeClass('disabled');
+					}
+				} else {
+					page--;
+					$('.pf-nav').stop().animate({
+						'margin-top': -70 * page
+					}, 200);
+					if (page == 0) {
+						$(this).addClass('disabled');
+						$('.pf-nav-next').removeClass('disabled');
+					} else {
+						$('.pf-nav-next').removeClass('disabled');
+					}
+				}
+			})
+			
+		</script>
+	</body>
+
+</html>

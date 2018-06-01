@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>教材管理列表</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/easyui.css">
+    <!-- 共用样式 -->
+
+    <link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+    <!-- 富文本编辑器css不用可不引用 -->
+    <link href="/statics/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <!-- 富文本编辑器js不用可不引用 -->
+   <!--  <script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/statics/js/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/lang/zh-cn/zh-cn.js"></script> -->
+    <!-- 富文本编辑器js不用可不引用 -->
+    <script type="text/javascript" src="/js/textbook/textbook.js"></script>
+    <link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	<script src="/statics/js/keydown.js"></script> 
+        </head>
+<body>
+
+    <!-- 列表 -->
+    <table id="dg" style="width:100%; height:100%" data-options="striped:true"></table>
+
+    <div id="tb" style="height:auto">
+      <!--   <form action="/archives/index" id="wordbook_form" method="post"> -->
+            名称: <input placeholder="名称" type="text" id="name" name="name"  class="easyui-textbox"  style="height:35px;"/>
+            <a href="javascript:void(0)" onclick="query()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+            <a href="javascript:void(0)" onclick="update('add')" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+         <!--    <a href="javascript:void(0)"  onclick="replace(0,'')" class="easyui-linkbutton">重置排序值</a> -->
+     <!--    </form> -->
+    </div>
+
+    <div id="book" class="easyui-dialog" title="" data-options="resizable:false, draggable: false" style="width:800px;height:80%">
+            <form action="/platform/textbook/add" id="book_form" method="post" enctype="multipart/form-data">
+            	<input type="hidden" id="typeText" name="typeText" />
+                <table class="this_table"  >
+                    <tr>
+                        <td>教材名称:</td>
+                        <td colspan="3">
+                            <input id="id" name="id" type="hidden"/>
+                            <input placeholder="教材名称"  id="bookname" name="name" maxlength="30"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                            <span style="color:red">*必填</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>教材作者:</td>
+                        <td colspan="3">
+                            <input placeholder="教材作者"  id="author" name="author" maxlength="20"  class="input easyui-validatebox"  style="width:200px;height:35px;"/>
+                            <span style="color:red">*必填</span>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                    	<td><label>教材主题:</label></td>
+                    	<td>
+                    		<select name="topic" id="topic" style="height:35px;width: 100px">
+                    			 <option value="">请选择</option>
+                    		</select>
+                   		</td>
+                    </tr> -->
+                    <tr>
+                    	<td><label>教材主题:</label></td>
+                    	<td>
+                    		<select name="type" id="type" style="height:35px;width: 100px">
+                    			 <option value="" selected="selected">请选择</option>
+                    			<!--  <option value="0">亲子阅读</option>
+                    			 <option value="1">新父母教材</option> -->
+                    		</select>
+                    		<span style="color:red">*必填</span>
+                   		</td>
+                    </tr>
+                   <!--  <tr>
+                    	<td><label>标签:</label></td>
+                    	<td id="flagcheckbox" class="this-checkbox"></td>
+                    </tr> -->
+                    <tr>
+                    	<td><label>学段:</label></td>
+                    	<td>
+                    		<select name="section" id="section" style="height:35px;width: 100px">
+                    			 <option value="" selected="selected">请选择</option>
+                    		</select>
+                    		<span style="color:red">*必填</span>
+                    			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	年级:<select name="grade" id="grade" style="height:35px;width: 100px" >
+                    			 <option value="" selected="selected">请选择</option>
+                    		</select>
+                    		 <span style="color:red">*必填</span>
+                   		</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div class="fitem">
+                                <img id="coverimg" src="/statics/images/addimg.png" style="width:300px;height:120px"/>
+                                <input type="hidden" id="cover" name="coverimg"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>封面:</label></td>
+                        <td>
+                            <input class="easyui-filebox" name="file" id="file" data-options="prompt:'请选择'"  style="width:350px;height:35px;"/>
+                            <span style="color:red">图片大小不能超过3M,建议尺寸220px*220px</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>购买链接:</td>
+                        <td>
+                            <input placeholder="http://..." id="url" name="url" maxlength="100"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                            <span style="color:red">*必填</span>
+                        </td>
+                    </tr>
+                   <!--  <tr>
+                        <td><label>排序:</label></td>
+                        <td>
+                            <input placeholder="课时(分钟)" id="hour" name="hour" maxlength="6" type="number"  class="input easyui-validatebox"  style="width:100px;height:35px;"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   		 排序:  
+                            <input placeholder="排序" id="sequence" name="sequence" maxlength="6" type="number"  class="input easyui-validatebox"  style="width:100px;height:35px;"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td><label>置顶:</label></td>
+                        <td class="this-radio" colspan="3">
+                            <input value="0" id="isTop0" checked type="radio" class="" name="isTop" /><span>否</span>
+                            <input value="1" id="isTop1"  type="radio" name="isTop" /><span>是</span>
+                        </td>
+                    </tr>
+<!--                     <tr class="outer"> -->
+<!--                         <td><label>书评:</label></td> -->
+<!--                         <td> -->
+<!--                             <script type="text/plain" name="feature" id="feature"  style="width:500px;height:120px;"></script> -->
+<!--                          </td> -->
+<!--                     </tr> -->
+                    <tr class="inner">
+                        <td><label>书评:</label></td>
+                        <td class="this_textarea"  colspan="2"><textarea class="easyui-textbox" data-options="multiline:true,validType:['blank','length[1,165]']"  id="give" name="give" style="width:505px;"></textarea> <span style="color:red">*必填</span></td>
+                       
+                       <!--  <td>
+                            <script type="text/plain" name="give" id="give" style="width:500px;height:240px;"></script>
+                        </td> -->
+                    </tr>
+                    <tr>
+		                <td><label>推荐理由 ：</label></td>       
+		                <td class="this_textarea"  colspan="2"><textarea class="easyui-textbox" data-options="multiline:true,validType:['blank','length[1,30]']"  id="recommend" name="recommend"  style="width:505px;"></textarea> <span style="color:red">*必填</span></td>
+		            </tr>
+                </table>
+            </form>
+            <div style="text-align:center;padding:5px" id="bc">
+                <a class="easyui-linkbutton this_but1"  id="save" onclick="addbook();">保存</a>
+                <a class="easyui-linkbutton this_but1"  id="upda" onclick="updatebook();">保存</a>
+                <a class="easyui-linkbutton this_but2" onclick="javascript: $('#book').dialog('close');" id="cance">取消</a>
+            </div>
+    </div>
+
+    <div id="book_detail" class="easyui-dialog" title="" data-options="resizable:false, draggable: false" style="width:800px;height:500px">
+        <form action="/platform/textbook/add" method="post" enctype="multipart/form-data">
+            <table class="this_table"  >
+                <tr>
+                    <td>教材名称:</td>
+                    <td colspan="3">
+                        <input placeholder="教材名称"  id="booknames"  maxlength="30" readonly class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>教材作者:</td>
+                    <td colspan="3">
+                         <input placeholder="教材作者"  id="authors" maxlength="20"  class="input easyui-validatebox"  style="width:200px;height:35px;"/>
+                    </td>
+                </tr>
+                <!-- <tr>
+                	<td><label>主题:</label></td>
+                	<td>
+                		<select id="topics" style="height:35px;width: 100px">
+                			 <option value="">请选择</option>
+                		</select>
+               		</td>
+                </tr> -->
+                <tr>
+                	<td><label>教材类型:</label></td>
+                	<td>
+                		<select id="types" style="height:35px;width: 100px">
+                			 <option value="">请选择</option>
+                			<!--  <option value="0">亲子阅读</option>
+                			 <option value="1">新父母教材</option> -->
+                		</select>
+                		</select>
+               		</td>
+                </tr>
+               <!--  <tr>
+                  	<td><label>标签:</label></td>
+                  	<td id="flagcheckboxs" class="this-checkbox"></td>
+                </tr> -->
+                <tr>
+                  	<td><label>学段:</label></td>
+                  	<td>
+                  		<select id="sections" style="height:35px;width: 100px">
+                  			 <option value="">请选择</option>
+                  		</select>
+                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  	年级:<select id="grades" style="height:35px;width: 100px" >
+                  			 <option value="">请选择</option>
+                  	</select>
+               		</td>
+                </tr>
+                <tr>
+                    <td>封面:</td>
+                    <td colspan="3">
+                        <div class="fitem">
+                            <img id="coverimgs" src="/statics/images/addimg.png" readonly name="coverimg" style="width:300px;height:120px"/>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                     <td>购买链接:</td>
+                     <td>
+                         <input placeholder="http://..." id="urls"  maxlength="100"  class="input easyui-validatebox"  style="width:500px;height:35px;"/>
+                     </td>
+                </tr>
+              <!--   <tr>
+                    <td><label>排序:</label></td>
+                    <td>
+                            <input placeholder="课时(分钟)" id="hour" name="hour" maxlength="6" type="number"  class="input easyui-validatebox"  style="width:100px;height:35px;"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   		 排序:  
+                        <input placeholder="排序" id="sequences" maxlength="6" type="number"  class="input easyui-validatebox"  style="width:100px;height:35px;"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr> -->
+                <tr>
+                    <td><label>置顶:</label></td>
+                    <td class="this-radio" colspan="3">
+                        <input value="0" id="isTops0" checked type="radio" class="" name="isTop" /><span>否</span>
+                        <input value="1" id="isTops1"  type="radio" name="isTop" /><span>是</span>
+                    </td>
+                </tr>
+                <tr class="inner">
+                    <td><label>书评:</label></td>
+                    <td class="this_textarea"  colspan="2"><textarea class="easyui-textbox" data-options="multiline:true,validType:['blank','length[1,165]']"  id="gives" style="width:505px;"></textarea></td>
+                    <!-- <td>
+                        <script type="text/plain" id="gives" style="width:500px;height:240px;"></script>
+                    </td> -->
+                </tr>
+                <tr>
+		             <td><label>推荐理由 ：</label></td>       
+		             <td class="this_textarea"  colspan="2"><textarea class="easyui-textbox" data-options="multiline:true,validType:['blank','length[1,30]']"  id="recommends" style="width:505px;"></textarea></td>
+	            </tr>
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <a class="easyui-linkbutton this_but2" onclick="javascript: $('#book_detail').dialog('close');">取消</a>
+        </div>
+    </div>
+</body>
+</html>

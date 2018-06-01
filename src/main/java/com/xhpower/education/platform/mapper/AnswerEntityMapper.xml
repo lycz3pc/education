@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.education.platform.dao.AnswerEntityMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xhpower.education.platform.entity.AnswerEntity">
+		<id column="id" property="id" />
+		<result column="questions_id" property="questionsId" />
+		<result column="create_user" property="createUser" />
+		<result column="parent_id" property="parentId" />
+		<result column="content" property="content" />
+		<result column="praise" property="praise" />
+		<result column="unpraise" property="unpraise" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="comments" property="comments" />
+		<result column="from" property="from" />
+		<result column="is_expert" property="isExpert" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, questions_id, create_user, parent_id, content, praise, unpraise, create_time, update_time, comments, from, is_expert
+    </sql>
+
+</mapper>

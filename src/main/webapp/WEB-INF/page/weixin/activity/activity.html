@@ -1,0 +1,192 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>活动管理</title> 
+    <link rel="stylesheet" href="/statics/css/base.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/icon.css">
+    <link rel="stylesheet" href="/statics/css/cms.css">
+    <link rel="stylesheet" href="/statics/js/umeditor/themes/default/css/umeditor.css">
+    <!-- 共用样式 -->
+	<link rel="stylesheet" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="/statics/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="/statics/javascript/weixin/public/util.js"></script>
+    <script type="text/javascript" src="/statics/javascript/weixin/activity/activity.js"></script>
+    <style>
+    	.this_table .this_text .textbox{
+			height:80px  !important;
+		}
+    </style>
+</head> 
+<body>
+	<div class="container">
+		<!-- 数据显示 -->
+		<div class="content">
+			<table id="datagrid" class="easyui-datagrid this_table" data-options="pagination: true, rownumbers: true, toolbar: '#tb', fitColumns: true, striped: true" style="width:100%;height:100%">
+				<thead>
+					<tr>
+						<th data-options="field: 'hTitle', width: '20%'">活动标题</th>
+						<th data-options="field: 'startDate', width: '10%'">开始时间</th>
+						<th data-options="field: 'endDate', width: '10%', align: 'center'">结束时间</th>
+						<th data-options="field: 'createDate', width: '10%', align: 'center'">创建时间</th>
+						<th data-options="field: 'activityPrice', width: '10%', align: 'center'">活动价格</th>
+						<th data-options="field: 'partakeNum', width: '10%', align: 'center'">参与人数</th>
+						<th data-options="field: 'activityStatus', width: '10%', align: 'center'">活动状态</th>
+						<th data-options="field: 'operation', width: '20%', align: 'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<!-- 工具栏 -->
+		<div id="tb">
+			标题: <input id="searchTitle" class="easyui-textbox" placeholder="标题" type="text" name="title" style="height:35px;"/>
+			<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls: 'icon-search'">查询</a>
+			<a id="add" href="#" class="easyui-linkbutton" data-options="iconCls: 'icon-add'">发布</a>
+		</div>
+		<!-- 新增，修改窗 -->
+		<div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		    <form id="form">
+			    <table class="this_table">
+		    		<tr style="display: none;">
+		    			<td>id:</td>
+		    			<td><input id="hId" value="0" class="easyui-textbox" name="hId"></input></td>
+		    		</tr>
+					<tr>
+		    			<td>标题:</td>
+		    			<td><input id="hTitle" class="easyui-textbox" name="hTitle" data-options="required:true,missingMessage: '必填项',width:'200px'"></input></td>
+		    			<td>活动类型:</td>
+		    			<td><input id="activityType" class="easyui-textbox" name="activityType" data-options="required:true,missingMessage: '必填项',width:'200px'"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td>价格:</td>
+		    			<td><input id="activityPrice" class="easyui-numberbox"  name="activityPrice" data-options="required:true,min:0,precision:2,missingMessage: '数字必填项',width:'200px'"></input></td>
+		    			<td>参与人数:</td>
+		    			<td><input id="partakeNum" class="easyui-numberbox" name="partakeNum" data-options="width:'200px'"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td>开始:</td>
+		    			<td><input id="startDate" class="easyui-datetimebox" name="startDate" data-options="required:true,missingMessage: '必填项',width:'200px'"></input></td>
+		    			<td>结束:</td>
+		    			<td><input id="endDate" class="easyui-datetimebox" name="endDate" data-options="required:true,missingMessage: '必填项',width:'200px'"></input></td>
+		    		</tr>
+	    		<tr id="isShow">
+                        <td><label>活动状态:</label></td>
+                        <td class="this-radio" colspan="4">
+                            <input value="0" id="activityStatus1"  type="radio"  name="activityStatus" /><span>筹备中</span>
+                            <input value="1" id="activityStatus2"  type="radio" name="activityStatus" /><span>进行中</span>
+                            <input value="2" id="activityStatus3"  type="radio" name="activityStatus" /><span>已结束</span>
+                        </td>
+                    </tr>
+		    		<tr>
+		    			<td>简介:</td>
+		    			<td colspan="3" class="this_text"><textarea id="detail" class="easyui-textbox"  name="detail" data-options="multiline:true,validType:['blank','length[1,100]']" style="width:530px;height:100px;" ></textarea></td>
+		    		</tr>
+		    		
+		    		<tr>
+		    			<td>内容:</td>
+		    			<td colspan="3"><script type="text/plain" id="hContent" style="width:580px;height:240px;"></script></td>
+		    		</tr>
+		    		<tr>
+		    			<td>封面:</td>
+		    			<td>
+		    				<input id="coverUrl" data-options="required:true,missingMessage: '必填项'"></input>
+		    				<input id="coverId" name="coverId" style="display: none;"></input>
+		    				<input id="coverName" name="coverName" style="display: none;"></input>
+		    				<input id="coverPath" name="coverPath" style="display: none;"></input>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td><label>预览:</label></td>
+		    			<td><img id="coverImg" src="/statics/images/addimg.png" style="height: 120px"></td>
+		    		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="4" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but1" onclick="save();">保存</a>
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');disLoad();">取消</a>
+		    			</td>
+		    		</tr>
+		    	</table>
+		    </form>
+		</div>
+		
+		<!-- 活动详情 -->
+		<div id="getActivity" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		    <form id="activity_form">
+			    <table class="this_table">
+		    		<tr style="display: none;">
+		    			<td>id:</td>
+		    			<td><input id="hIds" value="0" class="easyui-textbox" name="hIds"></input></td>
+		    		</tr>
+					<tr>
+		    			<td>标题:</td>
+		    			<td><input id="hTitles" class="easyui-textbox" name="hTitles" data-options="editable:false,width:'200px'"></input></td>
+		    			<td>活动类型:</td>
+		    			<td><input id="activityTypes" class="easyui-textbox" name="activityTypes" data-options="editable:false,width:'200px'"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td>价格:</td>
+		    			<td><input id="activityPrices" class="easyui-numberbox" name="activityPrices" data-options="editable:false,width:'200px'"></input></td>
+		    			<td>参与人数:</td>
+		    			<td><input id="partakeNums" class="easyui-numberbox" name="partakeNums" data-options="editable:false,width:'200px'"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td>开始:</td>
+		    			<td><input id="startDates" class="easyui-datetimebox" name="startDates" readonly="readonly" data-options="width:'200px'"></input></td>
+		    			<td>结束:</td>
+		    			<td><input id="endDates" class="easyui-datetimebox" name="endDates" readonly="readonly" data-options="width:'200px'"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td>简介:</td>
+		    			<td colspan="3" class="this_text"><textarea id="details" class="easyui-textbox"  name="details" data-options="multiline:true,editable:false" style="width:530px;height:100px;" ></textarea></td>
+		    		</tr>
+		    		
+		    		<tr>
+		    			<td>内容:</td>
+		    			<td colspan="3"><script type="text/plain" id="hContents" style="width:580px;height:240px;"></script></td>
+		    		</tr>
+		    		<tr>
+		    			<td><label>封面:</label></td>
+		    			<td><img id="coverImgs" src="/statics/images/addimg.png" style="height: 120px"></td>
+		    		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="4" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#activity_form').dialog('close');disLoad();">取消</a>
+		    			</td>
+		    		</tr>
+		    	</table>
+		    </form>
+		</div>
+		
+		<!-- 活动参与详情 -->
+		<div id="activityPartake" class="easyui-dialog" title="活动参与详情" data-options="resizable:true" style="width: 1000px; height: 600px">
+		  <div class="container">
+		   <div class="content">
+			<table id="dg" class="easyui-datagrid this_table" data-options="pagination: true, rownumbers: true, fitColumns: true, striped: true" style="width:99%;height:100%">
+				<thead>
+					<tr>
+						<th data-options="field: 'activityId', width: '20%'">活动标题</th>
+						<th data-options="field: 'status', width: '15%'">支付状态</th>
+						<th data-options="field: 'userId', width: '15%', align: 'center'">用户ID</th>
+						<th data-options="field: 'userName', width: '15%', align: 'center'">参与人</th>
+						<th data-options="field: 'userPhone', width: '15%', align: 'center'">联系电话</th>
+						<th data-options="field: 'createDate', width: '20%', align: 'center'">参与时间</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		</div>
+		</div>
+		
+		
+	</div>
+</body> 
+</html>

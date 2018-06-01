@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhpower.education.platform.dao.NpConstantItemMapper">
+  <resultMap id="BaseResultMap" type="com.xhpower.education.platform.entity.NpConstantItem">
+    <id column="constant_id" jdbcType="BIGINT" property="constantId" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="constant_value" jdbcType="VARCHAR" property="constantValue" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modify_by" jdbcType="VARCHAR" property="lastModifyBy" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    constant_id, category_id, category_name, constant_value,
+    creator_id, create_time, last_modify_by, last_modify_time, sort_no
+  </sql>
+
+</mapper>

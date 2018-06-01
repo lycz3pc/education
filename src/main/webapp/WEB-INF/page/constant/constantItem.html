@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>新父母学校常量管理</title>
+<link href="/statics/css/base.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/easyui.css">
+<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+<!-- 共用样式 -->
+<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/statics/javascript/constant/constantItem.js"></script>
+<style type="text/css">
+	#tb input,#tb .textbox{
+		height: 34px !important;
+		border-radius: 4px;
+	}
+
+</style>
+</head>
+<body>
+	<!-- 列表 -->
+	<div style="width: 100%;height: 100%">
+	<table id="datagrid" class="easyui-datagrid" data-options="pagination:true, rownumbers:true, toolbar:'#tb', width:'101%', height:'100%', striped:true">
+		<thead>
+			<tr>
+				<th data-options="field:'categoryName', width:'20%'">常量类型</th>
+				<th data-options="field:'constantValue', width:'20%'">常量值</th>
+				<th data-options="field:'createTime', width:'20%', align:'center'">创建时间</th>
+				<th data-options="field:'lastModifyTime', width:'20%', align:'center'">最后更新时间</th>
+				<th data-options="field:'operation', width:'20%', align:'center', formatter:formatOpt">操作</th>
+			</tr>
+		</thead>
+	</table>
+	<!-- 功能按钮 -->
+	<div id="tb" style="height:auto">
+		<select id="qryCategoryId" class="easyui-combobox" data-options="panelHeight:'auto', editable:true" style="width:160px;">
+    		
+		</select>
+		<!-- <a id="qry" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="qryConstants();">查询</a> -->
+		<a id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="popAdd();">新增</a>
+	</div>
+	
+	<!-- 弹出框 -->
+	<div id="dialog" data-options="resizable:false, draggable:false" style="width: 400px;height:auto;display:none;padding:8px 0">
+		<form id="form" method="post">
+			<table class="this_table">
+				<tr style="display: none">
+		    		<td><label>id:</label></td>
+		    		<td ><input id="constantId" class="easyui-textbox" name="constantId" style="width:160px;"/></td>
+		    	</tr>
+		    	<tr>
+		    		<td><label>常量类型:</label></td>
+		    		<td colspan="3">
+		    			<select id="categoryId" name="categoryId" class="easyui-combobox" data-options="required:true, editable:false, panelHeight:'auto'" style="width:160px;"></select>
+		    		</td>
+		    	</tr>
+		    	<tr style="display: none">
+		    		<td><label>常量类型名称:</label></td>
+		    		<td colspan="3"><input id="categoryName" class="easyui-textbox" name="categoryName" style="width:160px;"/></td>
+		    	</tr>
+				<tr>
+		    		<td><label>常量值:</label></td>
+		    		<td colspan="3"><input id="constantValue" class="easyui-textbox" data-options="required:true, validType: ['blank', 'constantValue[$(\'#constantId\').textbox(\'getValue\'), $(\'#categoryId\').textbox(\'getValue\')]']" name="constantValue" style="width:160px;"/></td>
+		    	</tr>
+		    	<tr>
+		    		<td colspan="4" align="center" class="this_table_center">
+		    			<a class="easyui-linkbutton this_but1" onclick="submitForm();">保存</a>
+		    			<a class="easyui-linkbutton this_but3" onclick="clearForm()" href="javascript:void(0)">清空</a>
+		    			<a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+		    		</td>
+		    	</tr>
+			</table>
+		</form>
+		</div>
+		<div id="tip" style="width:300px;height:220px;padding:10px;display:none;"></div>
+    </div>
+</body>
+</html>

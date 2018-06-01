@@ -1,0 +1,127 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>家校共育运营管理系统</title> 
+    <link href="/statics/css/base.css" rel="stylesheet">
+    <link href="/statics/css/login/login.css" rel="stylesheet">
+     <link href="/statics/custom/easyui.css" rel="stylesheet">
+     <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+     <link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+
+</head> 
+<body>
+	<div class="login-hd">
+		<div class="left-bg"></div>
+		<div class="right-bg"></div>
+		<div class="hd-inner">
+			<span class="logo"></span>
+			<span class="split"></span>
+			<span class="sys-name">管理运营平台</span>
+		</div>
+	</div>
+	<div class="login-bd">
+		<div class="bd-inner">
+			<div class="inner-wrap">
+				<div class="lg-zone">
+					<div class="lg-box">
+						<div class="lg-label"><h4>用户登录</h4></div>
+					<!-- 	<div class="alert alert-error">
+			              <i class="iconfont">&#xe62e;</i>
+			              <span>请输入用户名</span>
+			            </div> -->
+						<form  >
+							<div class="lg-username input-item clearfix">
+								<i class="iconfont">&#xe60d;</i>
+								<input type="text" placeholder="账号" id="username">
+							</div>
+							<div class="lg-password input-item clearfix">
+								<i class="iconfont">&#xe634;</i>
+								<input type="password" placeholder="请输入密码" id="password">
+							</div>
+							<div class="lg-check clearfix">
+								<div class="input-item">
+									<i class="iconfont">&#xe633;</i>
+									<input type="text" placeholder="验证码" id="captcha">
+								</div>
+								<span class="check-code"><img id="code" src="/captcha" width="114px" height="42px" onclick="refreshCode()"/></span>
+							</div>
+							<!-- <div class="tips clearfix">
+								<label><input type="checkbox" checked="checked">记住用户名</label>
+								<a href="javascript:;" class="register">立即注册</a>
+								<a href="javascript:;" class="forget-pwd">忘记密码？</a>
+							</div> -->
+							<div class="enter">
+								<a href="javascript:;" class="purchaser" onclick="login();">登录</a>
+								<!-- <a href="javascript:;" class="supplier" onClick="javascript:window.location='main.html'">供应商登录</a> -->
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="lg-poster"></div>
+			</div>
+		</div>
+	</div>
+	<div class="login-ft">
+		<div class="ft-inner">
+			<div class="about-us">
+				<a href="javascript:;">关于我们</a>
+				<a href="javascript:;">法律声明</a>
+				<a href="javascript:;">服务条款</a>
+				<a href="javascript:;">联系方式</a>
+			</div>
+			<div class="address">地址：中南出版传媒集团股份有限公司湖南教育出版社分公司&nbsp;邮编：410007&nbsp;&nbsp;Copyright&nbsp;©&nbsp;2017&nbsp;&nbsp;版权所有</div>
+			<div class="other-info">湘ICP备&nbsp;15003799号-1&nbsp;E-mail：geekfamily@bakclass.com</div>
+		</div>
+	</div>
+</body> 
+</html>
+<script src="/statics/js/jquery-3.2.0.min.js"></script>    
+<script src="/statics/js/keydown.js"></script> 
+<script src="/statics/custom/jquery.easyui.min.js"></script>      
+<script type="text/javascript">
+var us_kerdown=function (){
+	login();
+};
+$(function(){
+	if (window.top !== window.self) { // are you trying to put self in an iframe?  
+		  try {  
+		    if (window.top.location.host) { //  is illegal to access unless you share a non-spoofable document domain  
+		      // fun times  
+		    	window.top.location=window.self;
+		    	refreshCode();
+		    } else {  
+		    }  
+		  } catch (ex) {  
+		  }  
+		}  
+});
+function login(){
+	var username=$("#username").val();
+	var password=$("#password").val();
+	var captcha=$("#captcha").val();
+	var data = "username="+username+"&password="+password+"&captcha="+captcha;
+	$.ajax({
+		type: "POST",
+	    url: "/sys/login",
+	    data: data,
+	    dataType: "json",
+	    success: function(result){
+			if(result.code == 0){//登录成功
+				location.href ='main.html';
+			}else{
+				$.messager.alert('Warning',result.msg,"info");
+				refreshCode();
+			}
+		}
+	});
+}
+
+function refreshCode(){
+	 var src = "/captcha?t=" + $.now();
+	$("#code").attr("src",src);
+	
+	
+}
+</script>

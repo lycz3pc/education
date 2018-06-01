@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>供应商列表1</title> 
+
+<link href="/statics/css/base.css" rel="stylesheet">
+<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+<link rel="stylesheet" href="/statics/css/providers.css">
+</head> 
+<body>
+<input name="file" class="easyui-filebox" id="file" > 
+    <div class="container">
+       <table id="dg" style="width:100%;height:554px" title="全体供应商列表1" data-options="
+                rownumbers:true,
+                singleSelect:true,
+                autoRowHeight:false,
+                pagination:true,
+                fitColumns:true,
+                striped:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
+                collapsible:true,
+                toolbar:'#tb',
+                pageSize:10">
+            <thead>
+                <tr>
+                  
+                    <th  field="" width="110" checkbox="true" ></th>
+                     <th field="id" width="110"  >编号</th>
+                    <th field="name" width="226">用户姓名</th>
+                    <!--  <th field="level" width="112">等级</th>
+                    <th field="provide" width="170">主供品类</th>
+                    <th field="full" width="130">资料是否完善</th>
+                    <th field="issubmit" width="136">调查表格是否提交</th>
+                    <th field="status" width="120">审核状态</th> 
+                    <th field="note" width="105">备注</th>-->
+                </tr>
+            </thead>
+        </table>
+      <div id="tb" style="padding:0 30px;">
+        供应商编码: <input class="easyui-textbox" type="text" name="code" style="width:166px;height:35px;line-height:35px;"></input>
+        供应商名称: <input class="easyui-textbox" type="text" name="name" style="width:166px;height:35px;line-height:35px;"></input>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search" data-options="selected:true">查询</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+      </div>
+    </div>
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+ <script type="text/javascript" src="/statics/util/file.js"></script>
+
+
+    
+  
+
+    
+    <script type="text/javascript">
+	 var data
+(function($){
+   
+ 	   $.getJSON("/admin/sys/admin/list", function(r){   			
+			console.log(JSON.stringify(r.page));
+			data=r.page.records
+			 $('#dg').datagrid({data:data});
+        })//validType : ['fileSize[1,"kb"]' ],  
+         $('#file').filebox({  
+	        required : true,  
+	        width : '400px',  
+	        multiple : true,  
+	        
+	        buttonText : '请选择',  
+	        buttonAlign : 'right',  
+	        prompt : '请选择一个图片类型的文件',  
+	        accept : [ 'image/jpg', 'image/bmp', 'image/jpeg', 'image/gif', 'image/png' ]  
+	}); 
+})(jQuery);
+
+	   
+       
+    </script>
+</body> 
+</html>

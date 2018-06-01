@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/cache   
+          http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- shiro和数据库的桥梁，相当于DAO -->
+	<bean id="shiroRealm" class="com.xhpower.education.system.core.UserRealm">
+	</bean>
+	<!-- 缓存管理器 -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
+	</bean>
+	  <!-- 会话管理器 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	    <!-- 设置超时时间 -->
+	    <!-- <property name="globalSessionTimeout" value="10000"/> -->
+	     <property name="sessionIdCookie" ref="simpleCookie"/>
+	</bean>
+	 <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+    <constructor-arg name="name" value="shiro.sesssion"/>
+    <property name="path" value="/"/>
+     </bean>
+	<!--安全管理器，上篇博客看到了它是统筹全局的一个组件 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+   	<!-- 集成上数据访问的Realm -->
+     	<property name="realm" ref="shiroRealm"></property> 
+    <!-- 集成上缓存管理器 -->
+    	<property name="cacheManager" ref="shiroEhcacheManager"></property>  
+    	
+    	<property name="sessionManager" ref="sessionManager"></property> 
+	</bean>
+	<!--保证shiro内部生命周期的bean被执行  -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+	<bean id="chainDefinitionSectionMetaSource" class="com.xhpower.education.system.core.ChainDefinitionSecionMetaSource"> 
+    	<property name="filterChainDefinitions"> 
+        	<value> 
+           		/=anon
+           		/admin/login=anon
+           		/admin/login.jsp=anon
+           		/admin/login.html=anon
+           		/admin/images/*=anon
+           		/admin/js/*=anon
+            	/admin/**=authc
+           		/resource/** = anon
+           		/menuManage/**=authc
+        	</value> 
+    	</property> 
+	</bean>
+	<!--shiro主过滤器的配置  -->
+	<bean id ="shiroSecurityFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+     	<!-- 集成上安全管理器 -->
+     	<property name="securityManager" ref="securityManager"></property>
+     	<property name="loginUrl" value="/admin/login.html"></property>
+    	<property name="successUrl" value="/admin/main.html"></property>
+     	<property name="unauthorizedUrl" value="/system/second.jsp"></property>
+       <property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" /> 
+</bean>
+
+<!-- 以下两个是关于启用注解的配置 -->
+<!-- <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+       depends-on="lifecycleBeanPostProcessor"></bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+	    <property name="securityManager" ref="securityManager"/>
+	</bean> -->
+   <!-- <bean scope="singleton" class="com.xhpower.airportYouth.common.plugins.spring.SpringContext"/> -->
+
+</beans>

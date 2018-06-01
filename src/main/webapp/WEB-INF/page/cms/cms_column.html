@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>栏目管理</title> 
+    <link rel="stylesheet" href="/statics/css/base.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+    <link rel="stylesheet" href="/statics/custom/uimaker/icon.css">
+    <link rel="stylesheet" href="/statics/css/cms_column.css">
+    <link rel="stylesheet" href="/statics/ztree/css/zTreeStyle/zTreeStyle.css">
+    <!-- 共用样式 -->
+	<link rel="stylesheet" href="/statics/css/public/s-css-2.css">
+    <script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/statics/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/statics/javascript/cms/common.js"></script>
+    <script type="text/javascript" src="/statics/javascript/cms/cms_column.js"></script>
+</head> 
+<body>
+	<div class="container pd-lf21">
+		<div class="left-tree">
+			<div id="treeDemo" class="ztree"></div>
+		</div>
+		<div class="content">
+			<table id="datagrid" class="easyui-datagrid" data-options="rownumbers: true, toolbar:'#tb', striped: true" style="width:100%;height:100%">
+				<thead>
+					<tr>
+						<!-- <th data-options="field: 'id', width: '20%', align: 'center'">Id</th> -->
+						<th data-options="field: 'cloumnName', width: '25%', align: 'center'">栏目名称</th>
+						<th data-options="field: 'createTime', width: '25%', align: 'center'">创建时间</th>
+						<th data-options="field: 'updateTime', width: '25%', align: 'center'">最后修改时间</th>
+						<th data-options="field: 'operation', width: '25%', align: 'center'">操作</th>
+					</tr>
+				</thead>
+			</table>
+			<div id="tb" class="opt-buttons" style="padding:0 30px;">
+            	<a id="add" href="#" class="easyui-linkbutton" data-options="selected:false, iconCls:'icon-add'">新增</a>
+            </div>
+		</div>
+		
+		<div id="dialog" class="easyui-dialog" title="My Dialog" data-options="resizable:true">
+		    <form id="form">
+			    <table class="this_table">
+		    		<tr style="display: none;">
+		    			<td>id:</td>
+		    			<td><input id="id" value="0" class="easyui-textbox" type="text" name="id"></input></td>
+		    		</tr>
+					<tr>
+		    			<td><label>栏目名称:</label></td>
+		    			<td><input id="cloumnName" class="easyui-textbox" type="text" name="cloumnName" data-options="missingMessage: '必填项', required:true, validType: ['trimBlanForNotNull', 'cloumnName[$(\'#id\').textbox(\'getValue\')]']"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td><label>父节点:</label></td>
+		    			<td><input id="parentId" class="easyui-combotree" name="parentId" data-options="missingMessage: '必填项', required:true"></input></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="2" class="this_table_center">
+		    				<a class="easyui-linkbutton this_but1" onclick="save();">保存</a>
+		    				<a class="easyui-linkbutton this_but2" onclick="javascript: $('#dialog').dialog('close');">取消</a>
+		    			</td>
+		    		</tr>
+		    	</table>
+	    	</form>
+		</div>
+	</div>
+</body> 
+</html>

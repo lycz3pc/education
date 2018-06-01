@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工作台</title>
+	<link rel="stylesheet" type="text/css" href="/statics/custom/uimaker/icon.css">
+<link href="/statics/css/base.css" rel="stylesheet">
+<link rel="stylesheet" href="/statics/custom/uimaker/easyui.css">
+<link rel="stylesheet" href="/statics/css/workbench.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/public/s-css-2.css">
+	<script type="text/javascript" src="/statics/custom/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/statics/custom/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/custom/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/statics/js/echarts-all.js"></script>
+<script type="text/javascript" src="/statics/javascript/weixin/data/cmpregist.js"></script>
+	
+</head>
+<body>
+	
+		<!-- 功能区 -->
+		
+		<div id="bd">
+			<div class="center-part">
+				<div class="center-items chart1">
+					<div class="chart1-inner" style="height: 450px;">
+						<div class="item-hd">校区注册量统计:
+			                                             从: <input class="easyui-datebox" style="width:200px;height:30px;" id="start">
+			                                             到: <input class="easyui-datebox" style="width: 200px; height: 30px;" id="end">
+				           <a href="javascript:void(0)" class="easyui-linkbutton" style="height: 30px;" iconCls="icon-search" onclick="qryLog()" >搜索</a>
+						</div>
+						<div>
+						<p style="display:none;color: green;background-color:#f8f8f8" id="msg" >温馨提示：当前默认查询最近一个月各个校区的注册量!</p>
+						</div>
+						<div class="chart1-chart" id="chart3" style="height: 400px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>

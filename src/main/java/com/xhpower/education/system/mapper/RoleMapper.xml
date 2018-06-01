@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhpower.education.system.dao.RoleMapper" >
+  
+  <select id="selectByUsername" parameterType="java.lang.String" resultType="com.xhpower.education.system.entity.Role" >
+    	select nr.id, nr.name,
+    	       nr.create_time as createTime, nr.description
+    	from np_admin na, np_admin_role nar, np_role nr
+    	where na.id = nar.admin_id
+    	and nar.role_id = nr.id
+    	and na.username = #{userName}
+  	</select>
+  	
+  	<insert id="insertRolePermission" parameterType="com.xhpower.education.system.entity.Role">
+    	insert into np_role_permission (role_id, permission_id)
+    	values 
+    	<foreach collection="permissions" item="permission" index="index"  separator="," >  
+        	(#{id}, #{permission.id})  
+     	</foreach>
+  	</insert>
+  	
+</mapper>
